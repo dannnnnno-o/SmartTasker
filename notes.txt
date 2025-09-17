@@ -1,0 +1,29 @@
+COMPUTER PROGRAMMING 
+
+proposing system using c language 
+
+- hard copy on monday
+- at least 3 proposal 
+- letter size
+
+format:
+name of system 
+description of system 
+features 
+limitations 
+members
+
+|| GradeX ||
+
+GradeX is an Automatic Grading System that allows students to manage their schoolworks efficiently by providing them a space where they can manage subjects and specific tasks.
+
+Features:
+    Workspace
+    Sortable To-do List 
+    Numerical Grade to 11-point system conversion
+    Automatic Grading System (AGS)
+
+Limitations: 
+    Manual input for subjects, tasks, and rubrics
+    No online support
+
