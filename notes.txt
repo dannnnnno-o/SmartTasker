@@ -17,10 +17,11 @@ LIMITATIONS:
     Console-based interface (no GUI or online access).
     Data is not auto-synced; saving and loading must be done through text files.
 
+Tags: Work, School, Personal
 
-_______________________________
-|Welcome to Smart Tasker!   |
-|                              |
-|                              |
-|                              |
-|______________________________|
+
+
+typedef struct{
+    char *name, *deadline, *tag, *description, *difficulty;
+}   task;
+

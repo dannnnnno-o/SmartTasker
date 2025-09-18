@@ -8,3 +8,14 @@ int no_file(char *filename){
     }
     return 1; // if file does not exists
 }
+
+void taskOverview(char *filename){
+    FILE *file = fopen(filename, "r");
+
+    int finput = 0;
+    fscanf(file, "%d", &finput);
+    printf("Number: %d\n", finput);
+
+    fclose(file);
+
+}

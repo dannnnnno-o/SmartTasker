@@ -3,10 +3,10 @@
 
 void viewTasks(char *file){
 
-    if(no_file(file)){
-        printf("No tasks yet\n");
+    if(no_file(file)){ // if tasks aren't found, make one.
+        FILE *tmpFile = fopen(file, "w");
+        fclose(tmpFile);
     }
-    else{printf("file found\n");}
 
 /*     printf("Tasks\n");
     printf("1. Cook Dinner           @Personal    #9/17/25\n");

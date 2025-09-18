@@ -20,7 +20,7 @@ int main(){
      int choice;
     scanf("%d", &choice);
 
-    system("clear");
+    system("cls");
 
 
     switch(choice){
@@ -28,7 +28,7 @@ int main(){
                 break;
         case 2: addTask();
                 break;
-        case 3: manageTasks();
+        case 3: manageTasks("Tasks.txt");
                 break;
         case 4: history();
                 break;
