@@ -1,29 +1,26 @@
-COMPUTER PROGRAMMING 
+||| Smart Tasker |||
 
-proposing system using c language 
+DESCRIPTION OF SYSTEM:
+SmartTasker is a console-based to-do list manager built in C language that helps students and professionals organize their tasks efficiently. Unlike a regular to-do list, SmartTasker automatically assigns priority levels to tasks based on their deadlines and difficulty level. This ensures that the most urgent and challenging tasks are highlighted first, helping users manage their time more effectively.
 
-- hard copy on monday
-- at least 3 proposal 
-- letter size
+FEATURES:
+    Task Management – Add, edit, delete, and view tasks.
+    Automatic Priority Setting – System calculates priority by combining deadline proximity and task difficulty.
+    Task Sorting – Tasks are displayed in order of priority.
+    Search Function – Find tasks by keyword or category.
+    Statistics Summary – Shows number of tasks pending, completed, and overdue.
+    Simple Workspace – Menu-driven interface for easy navigation.
 
-format:
-name of system 
-description of system 
-features 
-limitations 
-members
+LIMITATIONS:
+    Tasks must be entered and deleted manually.
+    Deadline tracking is limited to simple date input (no real-time clock).
+    Console-based interface (no GUI or online access).
+    Data is not auto-synced; saving and loading must be done through text files.
 
-|| GradeX ||
 
-GradeX is an Automatic Grading System that allows students to manage their schoolworks efficiently by providing them a space where they can manage subjects and specific tasks.
-
-Features:
-    Workspace
-    Sortable To-do List 
-    Numerical Grade to 11-point system conversion
-    Automatic Grading System (AGS)
-
-Limitations: 
-    Manual input for subjects, tasks, and rubrics
-    No online support
-
+_______________________________
+|Welcome to Smart Tasker!   |
+|                              |
+|                              |
+|                              |
+|______________________________|
