@@ -1,8 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "controller.c"
+#include "view.c"
 
 int main(){
+
+
 
     printf("Welcome to Smart Tasker.\n");
     printf("1. View Tasks\n");
@@ -12,14 +14,17 @@ int main(){
     printf("5. Exit\n");
     printf("\nWhat would you like to do?: ");
 
-    int choice;
+
+    
+
+     int choice;
     scanf("%d", &choice);
 
     system("clear");
 
 
     switch(choice){
-        case 1: viewTasks();
+        case 1: viewTasks("tasks.txt");
                 break;
         case 2: addTask();
                 break;
