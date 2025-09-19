@@ -4,8 +4,6 @@
 
 int main(){
 
-
-
     printf("Welcome to Smart Tasker.\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
@@ -20,7 +18,7 @@ int main(){
      int choice;
     scanf("%d", &choice);
 
-    system("cls");
+    system("clear");
 
 
     switch(choice){
