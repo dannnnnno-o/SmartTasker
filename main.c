@@ -13,12 +13,10 @@ int main(){
     printf("\nWhat would you like to do?: ");
 
 
-    
-
-     int choice;
+    int choice;
     scanf("%d", &choice);
 
-    system("clear");
+    system("cls");
 
 
     switch(choice){
@@ -26,7 +24,7 @@ int main(){
                 break;
         case 2: addTask();
                 break;
-        case 3: manageTasks("Tasks.txt");
+        case 3: manageTasks("tasks.txt");
                 break;
         case 4: history();
                 break;

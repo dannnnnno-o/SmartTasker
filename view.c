@@ -8,11 +8,7 @@ void viewTasks(char *file){
         fclose(tmpFile);
     }
 
-/*     printf("Tasks\n");
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Go Back\n"); */
+
 
     //have an access to reading the tasks.txt to and print an overview to the console.
     //take in user input to select a certain task, to go the previous, as well as next page.
@@ -33,7 +29,7 @@ void addTask(){
     //text format not yet to be disclosed.
 }
 
-void manageTasks(){
+void manageTasks(char *tasks){
     printf("Manage\n");
     //also have an read access to have an overview
     //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.

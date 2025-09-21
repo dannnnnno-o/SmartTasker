@@ -10,16 +10,42 @@ int main(){
     file = fopen("text.txt", "r");
 
     while(fgets(line, sizeof(line), file)){
-        char *currentLine = line;
-        char *myPtr = strtok(line, ",");
-        while(myPtr != NULL){
-            printf("%s\n", myPtr);
+        for(int i = 0; i < 3; i++){
+            char *myPtr = strtok(line, ",");
+            char *myPtrCpy;
+            int ptrLen = strlen(myPtr);
+            int above11;
+            int under11;
+            int just11;
+            switch(i){
+                case 1:
+                    if(ptrLen > 11){above11 = 1;}
+                    else if(ptrLen < 11){under11 = 1;}
+                    else if(ptrLen == 11){just11 = 1;}
+                    int key = (above11 << 2 | under11 << 1 | just11);  
+
+                    switch(key){
+                        case 1: printf("%s", myPtr);
+                                break;
+                        case 2:
+                        printf("%s", myPtr);
+                        for(int i = ptrLen; i < 11; i++){
+                        printf(" ");
+                        break;
+                        }
+                        case 4: strncpy(myPtrCpy, myPtr, 10);
+                        printf("%s", myPtr);
+                        break;
+                    } 
+                        break;
+
+                case 2: printf("@%s", myPtr);
+            }
             myPtr = strtok(NULL, ",");
         }
     }
 
-    fclose(file);
-    
+    fclose(file);    
     /*     printf("Tasks\n");
     //        name                     tag           deadline
     printf("1. Cook Dinner              @Personal    #9/17/25\n");
