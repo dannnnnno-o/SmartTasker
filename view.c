@@ -28,22 +28,21 @@ void displayTask(){
 void addTask(){
     printf("Add\n");
     
-    //have an access to append to tasks.txt 
+    //have an access to tasks.txt, and append user input 
     //text format not yet to be disclosed.
 }
 
 void manageTasks(char *filename){
     printf("Manage\n");
-    //also have an read access to have an overview
+    //also have an read access to tasks.txt have an overview
     //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.
     //after tasks are removed or completed, they will be moved to records.txt
 }
 
 void history(){
     printf("History\n");
-    //have an access to records.txt and display the overview of removed/submitted takss
+    //have an access to records.txt and display the overview of removed/submitted tasks
     //by default, a user is allowed to select a certain task at once and have an option to restore it or to simply return
 
     //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
 }
-

@@ -14,8 +14,7 @@ int main(){
 
 
     
-
-     int choice;
+    int choice;
     scanf("%d", &choice);
 
     system("cls");
@@ -33,5 +32,6 @@ int main(){
         case 5: printf("Thanks for using Smart Tasker!\n");
                 return 0;
     }
+
     return 0;
 }
