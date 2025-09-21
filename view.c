@@ -7,7 +7,6 @@ void viewTasks(char *file){
         FILE *tmpFile = fopen(file, "w");
         fclose(tmpFile);
     }
-
 /*     printf("Tasks\n");
     printf("1. Cook Dinner           @Personal    #9/17/25\n");
     printf("2. Submit Podcast        @School      #9/18/25\n");
@@ -33,7 +32,7 @@ void addTask(){
     //text format not yet to be disclosed.
 }
 
-void manageTasks(){
+void manageTasks(char *filename){
     printf("Manage\n");
     //also have an read access to have an overview
     //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.
