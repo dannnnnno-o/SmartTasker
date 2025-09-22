@@ -17,7 +17,7 @@ int main(){
     int choice;
     scanf("%d", &choice);
 
-    system("cls");
+    system("clear");
 
 
     switch(choice){
