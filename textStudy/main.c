@@ -9,45 +9,54 @@ int main(){
     //open the file in read mode
     file = fopen("text.txt", "r");
 
+    int number = 1;
     while(fgets(line, sizeof(line), file)){
-        for(int i = 0; i < 3; i++){
-            char *myPtr = strtok(line, ",");
-            char *myPtrCpy;
-            int ptrLen = strlen(myPtr);
-            int above11;
-            int under11;
-            int just11;
+        //printf("%s", line); //each iteration from while = single line from txt
+
+        char *token = strtok(line, ",");
+        int len = strlen(token); // 
+        int limit1 = 16; // declares the limit of characters for each 1st iteration
+        printf("%d. ", number); // prints the number for each line
+        number = number + 1;
+        for(int i = 1; i <= 3; i++){
             switch(i){
-                case 1:
-                    if(ptrLen > 11){above11 = 1;}
-                    else if(ptrLen < 11){under11 = 1;}
-                    else if(ptrLen == 11){just11 = 1;}
-                    int key = (above11 << 2 | under11 << 1 | just11);  
-
-                    switch(key){
-                        case 1: printf("%s", myPtr);
-                                break;
-                        case 2:
-                        printf("%s", myPtr);
-                        for(int i = ptrLen; i < 11; i++){
-                        printf(" ");
-                        break;
+                case 1: /* Case 0 */
+                    if (len == limit1){
+                        printf("%s", token);
+                    }
+                    else if(len < limit1){
+                        printf("%s", token);
+                        for(int i = len; i <= limit1; i++){
+                            printf(" ");
                         }
-                        case 4: strncpy(myPtrCpy, myPtr, 10);
-                        printf("%s", myPtr);
-                        break;
-                    } 
-                        break;
+                    }
+                    else if(len > limit1){
+                        char tokenCopy[16 - 3];
+                        strncpy(tokenCopy, token, 15 - 3);
+                        printf("%s...", tokenCopy);
+                    }
+                break;  /* Case 1 */
 
-                case 2: printf("@%s", myPtr);
+                case 2: /* case 2 */
+                printf("\t\t\t");
+                if(len < limit1){
+                    printf("%s", token);
+                }
+                // else if(len == limit1)
+                break;
+                        
+                case 3: printf("%s\n", token);
             }
-            myPtr = strtok(NULL, ",");
+
+
+            //printf("%s ", token);
+            token = strtok(NULL, ",");
         }
-    }
+}
 
     fclose(file);    
     /*     printf("Tasks\n");
-    //        name                     tag           deadline
+    //        name                        tag         deadline
     printf("1. Cook Dinner              @Personal    #9/17/25\n");
     printf("2. Submit Podcast           @School      #9/18/25\n");
     printf("3. Review for MMW           @School      #9/19/25\n");
