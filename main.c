@@ -13,6 +13,10 @@ int main(){
     printf("\nWhat would you like to do?: ");
 
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 9cbc1c527cbcb8da1e777186f748a83109991298
     int choice;
     scanf("%d", &choice);
 
@@ -31,5 +35,6 @@ int main(){
         case 5: printf("Thanks for using Smart Tasker!\n");
                 return 0;
     }
+
     return 0;
 }
