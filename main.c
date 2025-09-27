@@ -19,7 +19,6 @@ int main(){
 
     system("cls");
 
-
     switch(choice){
         case 1: viewTasks("tasks.txt");
                 break;

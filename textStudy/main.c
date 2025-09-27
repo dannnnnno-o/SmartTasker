@@ -20,7 +20,7 @@ int main(){
         for(int i = 1; i <= 3; i++){
             int len = strlen(token); // 
             switch(i){
-                case 1: /* Case 0 */
+                case 1: /* Case 1 */
                     if (len == limit){
                         printf("%s", token);
                     }
