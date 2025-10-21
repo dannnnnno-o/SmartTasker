@@ -24,19 +24,9 @@ void View(int choice){
     
 }
 
-void viewTasks(char *filename){
+void viewTasks(int taskCount, char *filename){
     if(no_file(filename)){
         make_file(filename);
-    }
-
-    int taskCount = countTasks("tasks.txt");
-
-    if(!taskCount){
-        printf("There are no tasks available.");
-    }
-
-    else if(taskCount <= taskLimit){
-
     }
 
     FILE *file;
@@ -126,17 +116,25 @@ void displayTask(char *filename){
 
 void addTask(char *filename){
     printf("Add\n");
-    
+    /* 
+    NAME:
+    DES:
+
+
+
+ */
+
+
     //have an access to tasks.txt, and append user input 
     //text format not yet to be disclosed.
 }
 
-void manageTasks(char *filename){
+/* void manageTasks(char *filename){
     printf("Manage\n");
     //also have an read access to tasks.txt have an overview
     //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.
     //after tasks are removed or completed, they will be moved to records.txt
-}
+} */
 
 void history(char *filename){
     printf("History\n");

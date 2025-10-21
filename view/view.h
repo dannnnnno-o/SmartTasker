@@ -7,7 +7,7 @@ void landingPage();
 
 void View(int choice);
 
-void viewTasks(char *filename);
+void viewTasks(int taskCount, char *filename);
 
 void displayTask(char *filename);
 

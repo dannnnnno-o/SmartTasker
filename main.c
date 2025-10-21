@@ -8,10 +8,23 @@
 int main(){
     landingPage();
 
-    int choice = landingChoice();
+    int choice;
+    scanf("%d", &choice);
     switch(choice){
-        case 1: viewTasks("tasks.txt");
+        case 1: // View Tasks //
+            int taskCount = countTasks("tasks.txt"); 
+            if(taskCount){
+                viewTasks(taskCount, "tasks.txt"); // lists task
+                printChoices(taskCount, "tasks.txt"); //prints out choices and prompts the user
+
+
+                
                 break;
+            }
+
+        printf("There are no tasks available.\n");
+        break;
+                   
         case 2: addTask("tasks.txt");
                 break;
         case 3: manageTasks("tasks.txt");
