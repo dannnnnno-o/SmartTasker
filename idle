@@ -1,0 +1,13 @@
+
+gcc: gcc command
+-o: flag (what to do with gcc)
+main: name of the program
+
+
+main.c: source code of the program
+
+main.c lib/ctrl/ctrl.c lib/view/view.c
+
+
+
+
