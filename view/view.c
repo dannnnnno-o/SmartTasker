@@ -126,7 +126,31 @@ void displayTask(char *filename){
 
 void addTask(char *filename){
     printf("Add\n");
-    
+
+    char condi = 'Y';
+    printf("\n--- Add New Task ---\n");
+    FILE *file = fopen(filename, "a"); // open file for appending
+    if (file == NULL) {
+        printf("Error: cannot open %s\n", filename);
+        return;
+    }
+
+    while (condi == 'Y' || condi == 'y')
+    {
+       char task[260];
+    getchar();
+    printf("Enter task: ");
+    fgets(task, sizeof(task), stdin);
+
+    task[strcspn(task, "\n")] = '\0';
+
+    fprintf(file, "%s\n", task);
+    fclose(file);
+    printf("Task added successfully!\n");
+
+    printf("Do you want to add another task? (Y/N): ");
+    scanf(" %c", &condi);
+    }   
     //have an access to tasks.txt, and append user input 
     //text format not yet to be disclosed.
 }
