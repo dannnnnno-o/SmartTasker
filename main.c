@@ -11,6 +11,7 @@ int main(){
     int choice = landingChoice();
     switch(choice){
         case 1: viewTasks("tasks.txt");
+            /* added some new features  */
                 break;
         case 2: addTask("tasks.txt");
                 break;
