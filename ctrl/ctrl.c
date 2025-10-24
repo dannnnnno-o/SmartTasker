@@ -1,102 +1,120 @@
+// ctrl/ctrl.c
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ctrl.h"
-#include "../view/view.h"
-#define limit 16
+#include "ctrl.h" // Include its own header for prototypes
 
-int no_file(char *filename){
-    FILE *file = fopen(filename, "r");
+// --- Global Variables Definition ---
+Task taskList[MAX_TASKS];
+int taskCount = 0;
 
-    if(file){
-        fclose(file);
-        return 0; // if file exists
+// --- Helper Functions ---
+
+void calculatePriority(Task *t) {
+    t->priority = t->difficulty; 
+}
+
+int compareTasks(const void *a, const void *b) {
+    Task *taskA = (Task *)a;
+    Task *taskB = (Task *)b;
+    return taskB->priority - taskA->priority;
+}
+
+// --- File I/O Functions ---
+
+void saveTasksToFile() {
+    FILE *file = fopen("text.txt", "w"); // Overwrites file
+    if (file == NULL) {
+        perror("Error opening text.txt for writing");
+        return;
     }
-    return 1; // if file does not exists
-}
 
+    sortTasksByPriority();
 
-int landingChoice(){
-    int choice;
-    scanf("%d", &choice);
-    return choice;
-}
-
-void taskOverview(char *filename){
-    FILE *file = fopen(filename, "r");
+    for (int i = 0; i < taskCount; i++) {
+        // FORMAT: Name|Deadline|Tag|Description|Difficulty|Priority|CompletedStatus
+        fprintf(file, "%s|%s|%s|%s|%d|%d|%d\n", // Using '|' as separator
+            taskList[i].name, 
+            taskList[i].deadline, 
+            taskList[i].tag, 
+            taskList[i].description, 
+            taskList[i].difficulty,
+            taskList[i].priority,
+            taskList[i].completed);
+    }
     fclose(file);
 }
 
-void make_file(char *file){
-        if(no_file(file)){ // if tasks aren't found, make one.
-        FILE *tmpFile = fopen(file, "w");
-        fclose(tmpFile);
+void loadTasksFromFile() {
+    FILE *file = fopen("text.txt", "r");
+    char line[512];
+    taskCount = 0;
+
+    if (file == NULL) {
+        return;
     }
+
+    while (fgets(line, sizeof(line), file) && taskCount < MAX_TASKS) {
+        char *token;
+        Task tempTask;
+
+        // Load 7 fields separated by '|'
+        token = strtok(line, "|"); if (token) strncpy(tempTask.name, token, MAX_NAME_LEN - 1);
+        token = strtok(NULL, "|"); if (token) strncpy(tempTask.deadline, token, MAX_DEADLINE_LEN - 1);
+        token = strtok(NULL, "|"); if (token) strncpy(tempTask.tag, token, MAX_TAG_LEN - 1);
+        token = strtok(NULL, "|"); if (token) strncpy(tempTask.description, token, MAX_DESC_LEN - 1);
+        token = strtok(NULL, "|"); if (token) tempTask.difficulty = atoi(token);
+        token = strtok(NULL, "|"); if (token) tempTask.priority = atoi(token);
+        token = strtok(NULL, "|"); if (token) tempTask.completed = atoi(token);
+
+        taskList[taskCount] = tempTask;
+        taskCount++;
+    }
+    fclose(file);
 }
 
-void nameFormat(char *text, int len){
-    if(len == limit){
-        printf("%s", text);
-    }
+// --- Task Management Functions ---
 
-    else if(len < limit){
-        printf("%s", text);
-        for(int i = len; i <= limit; i++)
-        printf(" ");
+int addTask(Task newTask) {
+    if (taskCount < MAX_TASKS) {
+        calculatePriority(&newTask);
+        newTask.completed = 0;
+        taskList[taskCount] = newTask; 
+        taskCount++;
+        saveTasksToFile();
+        return 1;
     }
-
-    else if(len > limit){
-        char newText[limit - 3]; // -3 for ellipses
-        strncpy(newText, text, limit - 4); // -4 for cutting of the last three letters and the null terminator
-        printf("%s...", newText);
-    }
+    return 0;
 }
 
-void tagFormat(char *tag, int len){
-    printf("\t\t\t");
-    if(len == limit){
-        printf("%s", tag);
-    }
-
-    else if(len < limit){
-        printf("#%s", tag);
-        for(int i = len; i < limit; i++){
-            printf(" ");
+void deleteTask(int index) {
+    if (index >= 0 && index < taskCount) {
+        for (int i = index; i < taskCount - 1; i++) {
+            taskList[i] = taskList[i + 1];
         }
-    }
-
-    else if (len > limit){
-        char newTag[limit - 3]; // -3 for ellipses
-        strncpy(newTag, tag, limit - 4); // -4 for cutting of the last three letters and null terminator
-        printf("%s...", newTag);
+        taskCount--;
+        saveTasksToFile();
     }
 }
 
-void deadlineFormat(char *deadline){
-    printf("| %s |\n", deadline);
-}
-
-int countTasks(char *filename){
-    FILE *file = fopen(filename, "r");
-
-    char lineBuffer[255];
-    
-    char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
-    int taskNumber = 0;
-    while(line){
-        taskNumber++;
-        line = fgets(lineBuffer, sizeof(lineBuffer), file);
+void editTask(int index, Task updatedTask) {
+    if (index >= 0 && index < taskCount) {
+        calculatePriority(&updatedTask);
+        taskList[index] = updatedTask;
+        saveTasksToFile();
     }
-
-    fclose(file);
-    return taskNumber;
 }
 
-void selectTask(char* taskName){
-    FILE *file = fopen(taskName, "r");
-
-
-
-    fclose(file);
+void markTaskComplete(int index) {
+    if (index >= 0 && index < taskCount) {
+        taskList[index].completed = 1;
+        saveTasksToFile();
+    }
 }
 
+// --- Priority/Sorting Functions ---
+
+void sortTasksByPriority() {
+    qsort(taskList, taskCount, sizeof(Task), compareTasks);
+}

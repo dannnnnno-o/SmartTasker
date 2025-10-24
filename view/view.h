@@ -1,18 +1,27 @@
+// view/view.h
+
 #ifndef VIEW_H
 #define VIEW_H
 
-void clear();
+#include "../ctrl/ctrl.h"
 
-void landingPage();
+// Define a constant for the width of the task list display
+#define TASK_LIST_WIDTH 60 
 
-void View(int choice);
+// --- Helper Display Functions ---
+// printStars REMOVED, as it caused errors
+void printLine(char c, int len);
 
-void viewTasks(char *filename);
+// --- Menu Functions ---
+int displayLandingPage();
 
-void displayTask(char *filename);
+// --- Task Management Display ---
+void displayAddTaskForm();
+void displayTaskDetails(int globalIndex);
+int displayTaskDetailsMenu();
+void displayEditTaskForm(int globalIndex);
 
-void addTask(char *filename);
+// --- Task List View (The main feature) ---
+void displayTasks(int page, int maxPerPage);
 
-void history(char *filename);
-
-#endif
+#endif // VIEW_H

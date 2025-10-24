@@ -1,22 +1,43 @@
+// ctrl/ctrl.h
+
 #ifndef CTRL_H
 #define CTRL_H
 
-int no_file(char *filename);
+#define MAX_NAME_LEN 64
+#define MAX_DEADLINE_LEN 16
+#define MAX_TAG_LEN 16
+#define MAX_DESC_LEN 256
 
-void taskOverview(char *filename);
+// --- Core Data Structure ---
+typedef struct {
+    char name[MAX_NAME_LEN];          // Title of the task
+    char deadline[MAX_DEADLINE_LEN];  // Date (e.g., 9/27/25)
+    char tag[MAX_TAG_LEN];            // Work, School, Personal
+    char description[MAX_DESC_LEN];   // Detailed description
+    int difficulty;                   // 1-5 (user input)
+    int priority;                     // Calculated Priority 
+    int completed;                    // 0 (Pending), 1 (Done)
+} Task;
 
-int landingChoice();
+// --- Global Task List ---
+#define MAX_TASKS 100 
+extern Task taskList[MAX_TASKS];
+extern int taskCount;
 
-void make_file(char *filename);
+// --- Control Prototypes ---
 
-void nameFormat(char *text, int len);
+// File I/O
+void loadTasksFromFile();
+void saveTasksToFile();
 
-void tagFormat(char *tag, int len);
+// Task Management
+int addTask(Task newTask);
+void deleteTask(int index);
+void editTask(int index, Task updatedTask);
+void markTaskComplete(int index);
 
-void deadlineFormat(char *deadline);
+// Priority/Sorting
+void calculateAllPriorities();
+void sortTasksByPriority();
 
-int countTasks(char *filename);
-
-void selectTask(char* taskName);
-
-#endif
+#endif // CTRL_H
