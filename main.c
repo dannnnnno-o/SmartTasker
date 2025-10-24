@@ -14,11 +14,9 @@ int main(){
                 break;
         case 2: addTask("tasks.txt");
                 break;
-        case 3: manageTasks("tasks.txt");
+        case 3: history("tasks.txt");
                 break;
-        case 4: history("tasks.txt");
-                break;
-        case 5: printf("Thank you for using Smark Tasker.\n");
+        case 4: printf("Thank you for using Smart Tasker.\n");
                 exit(0);
     }
 

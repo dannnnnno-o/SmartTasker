@@ -13,8 +13,6 @@ void displayTask(char *filename);
 
 void addTask(char *filename);
 
-void manageTasks(char *filename);
-
 void history(char *filename);
 
 #endif

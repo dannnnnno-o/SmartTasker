@@ -131,12 +131,6 @@ void addTask(char *filename){
     //text format not yet to be disclosed.
 }
 
-void manageTasks(char *filename){
-    printf("Manage\n");
-    //also have an read access to tasks.txt have an overview
-    //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.
-    //after tasks are removed or completed, they will be moved to records.txt
-}
 
 void history(char *filename){
     printf("History\n");
