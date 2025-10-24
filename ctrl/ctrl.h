@@ -11,6 +11,7 @@ void nameFormat(char *text, int len);
 void tagFormat(char *tag, int len);
 void deadlineFormat(char *deadline);
 void clearBuffer();
+char *toStr(int x);
 
 /* END OF 1. View Tasks */
 

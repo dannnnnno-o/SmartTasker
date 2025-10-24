@@ -1,17 +1,5 @@
-Cook Dinner|Personal|9/17/25|Prepare a meal for the family by 8pm|***
-Review for MMW|School|9/19/25|dasd
-Cook Dinner|Personal|9/17/25|adasd
-Submit Podcast|School|9/17/25|adadsada
-Review for MMW|School|9/19/25|dasd
-Cook Dinner|Personal|9/17/25|adasd
-Submit Podcast|School|9/17/25|adadsada
-Review for MMW|School|9/19/25|dasd
-Cook Dinner|Personal|9/17/25|adasd
-Submit Podcast|School|9/17/25|adadsada
-Review for MMW|School|9/19/25|dasd
-Cook Dinner|Personal|9/17/25|adasd
-Submit Podcast|School|9/17/25|adadsada
-Review for MMW|School|9/19/25|dasd
-Cook Dinner For Tonight|Personal|9/17/25|adasd
-Submit Podcast|School|9/17/25|adadsada
-Review for MMW|School|9/19/25|dasd
+Cook Dinner|Personal|9/17/25|Prepare a meal for the family by 8pm|8
+Review for MMW|School|9/19/25|finish worksheet | 10
+Cook Dinner|Personal|9/17/25|prep meal 2| 8
+Submit Podcast|School|9/17/25|finish editing and upload podcast to drive| 7.5
+Review for MMW|School|9/19/25|review for final exam|9

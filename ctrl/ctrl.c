@@ -23,6 +23,14 @@ void make_file(char *file){
     }
 }
 
+char *toStr(int x){
+    char str[] = "  ";
+    sprintf(str, "%d", x);
+    char *strValue = str; 
+    return strValue;
+}
+
+
 void clearBuffer(){
     int emptyChar;
     while((emptyChar = getchar()) != '\n' && emptyChar != EOF){/* do nothing because the while loop will run until the input buffer is cleared*/}
@@ -102,5 +110,6 @@ void selectTask(char* taskName){
 
     fclose(file);
 }
+
 
 /* END OF 1. View Tasks */

@@ -2,11 +2,11 @@
 #define TASK_H
 
 struct Task {
-    char id;
-    char name[50];
-    char tag[30];
-    char deadline[15];
-    char description[255];
+    char *id;
+    char *name;
+    char *tag;
+    char *deadline;
+    char *description;
 };
 
 #endif

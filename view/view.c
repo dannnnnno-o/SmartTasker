@@ -20,43 +20,62 @@ void landingPage(){
     printf("\nWhat would you like to do?: ");
 }
 
-void View(int choice){
-    
+void printTask(struct Task task){
+    printf("%s   ", task.name);
+    printf("@%s ", task.tag);
+    printf("%s\n", task.deadline);
+}
+
+void printTaskList(struct Task *taskList, int taskCount){
+    for(int i = 0; i <= taskCount; i++){
+        printTask(taskList[i]);
+    }
 }
 
 void viewTasks(int taskCount, char *filename){
     if(no_file(filename)){
         make_file(filename);
     }
-
     FILE *file;
     file = fopen(filename, "r");
     char lineBuffer[255];
-    int lineNumber = 1;
-    char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
-if(taskCount <= 10){
-    while(line){
-        printf("%d. ", lineNumber);
-        lineNumber++;
-        char *token = strtok(lineBuffer, "|");
+    int id = 1;
 
+    char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
+    // struct Task *taskList;
+if(taskCount <= 10){
+    // struct Task **pTaskList = &taskList;
+    while(line){
+
+        struct Task task;
+        task.id = toStr(id);
+        printf("%d. ", id); // number for each line
+        id++;
+
+        char *token = strtok(lineBuffer, "|");
         for(int i = 1; i <= overviewLimit; i++){
-            int tokenLength = strlen(token);
+            // int tokenLength = strlen(token);
             switch(i){
                 case 1: /* first index = name */
                     //char* name = token
-                    nameFormat(token, tokenLength);
+                    task.name = token;
+                    // nameFormat(token, tokenLength);
                     break;
                 case 2: /* second index = tag */
-                    tagFormat(token, tokenLength);
+                    task.tag = token;
+                    // tagFormat(token, tokenLength);
                     break;
                 case 3: /* third index = deadline */
-                    deadlineFormat(token);
+                    task.deadline = token;
+                    // deadlineFormat(token);
             }
             token = strtok(NULL, "|");
         }
+        // taskList[id] = task;
+        printTask(task);
         line = fgets(lineBuffer, sizeof(lineBuffer), file); // Read next line
     }
+    // printTaskList(*pTaskList, taskCount);
     fclose(file);    
 }
 
@@ -84,36 +103,6 @@ else if(taskCount > 10){
     fclose(file);
 }
 
-
-/*     taskNumber < 7
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Go Back\n");
-*/
-
-/*      taskNumber == 7
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Submit Podcast        @School      #9/18/25\n");
-    printf("5. Review for MMW        @School      #9/19/25\n");
-    printf("6. Submit Podcast        @School      #9/18/25\n");
-    printf("7. Review for MMW        @School      #9/19/25\n");
-    printf("8. Go Back\n"); 
-*/
-    
-/*      taskNumber > 7 page 1
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Submit Podcast        @School      #9/18/25\n");
-    printf("5. Review for MMW        @School      #9/19/25\n");
-    printf("6. Submit Podcast        @School      #9/18/25\n");
-    printf("7. Review for MMW        @School      #9/19/25\n");
-    printf("8. Next Page\n"); 
-    printf("9. Go Back\n");  
-*/
 /*      taskNumber > 7 page 2
     printf("1. Cook Dinner2           @Personal    #9/17/25\n");
     printf("2. Submit Podcast        @School      #9/18/25\n");
