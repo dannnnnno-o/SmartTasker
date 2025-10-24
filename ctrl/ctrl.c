@@ -3,6 +3,7 @@
 #include <string.h>
 #include "ctrl.h"
 #include "../view/view.h"
+#include "../task.h"
 #define limit 16
 
 int no_file(char *filename){
@@ -15,23 +16,25 @@ int no_file(char *filename){
     return 1; // if file does not exists
 }
 
-
-int landingChoice(){
-    int choice;
-    scanf("%d", &choice);
-    return choice;
-}
-
-void taskOverview(char *filename){
-    FILE *file = fopen(filename, "r");
-    fclose(file);
-}
-
 void make_file(char *file){
         if(no_file(file)){ // if tasks aren't found, make one.
         FILE *tmpFile = fopen(file, "w");
         fclose(tmpFile);
     }
+}
+
+void clearBuffer(){
+    int emptyChar;
+    while((emptyChar = getchar()) != '\n' && emptyChar != EOF){/* do nothing because the while loop will run until the input buffer is cleared*/}
+}
+
+
+
+
+/* 1. View Tasks */
+void taskOverview(char *filename){
+    FILE *file = fopen(filename, "r");
+    fclose(file);
 }
 
 void nameFormat(char *text, int len){
@@ -100,3 +103,4 @@ void selectTask(char* taskName){
     fclose(file);
 }
 
+/* END OF 1. View Tasks */

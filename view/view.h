@@ -5,16 +5,15 @@ void clear();
 
 void landingPage();
 
-void View(int choice);
-
 void viewTasks(int taskCount, char *filename);
+
+char viewTaskChoice();
 
 void displayTask(char *filename);
 
 void addTask(char *filename);
 
-void manageTasks(char *filename);
-
 void history(char *filename);
+
 
 #endif

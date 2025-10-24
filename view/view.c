@@ -3,6 +3,7 @@
 #include <string.h>
 #include "view.h"
 #include "../ctrl/ctrl.h"
+#include "../task.h"
 #define limit 16 // UI text overflow limit
 #define overviewLimit 3
 #define taskLimit 7
@@ -13,9 +14,8 @@ void landingPage(){
     printf("Welcome to Smart Tasker.\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
-    printf("3. Manage Tasks\n");
-    printf("4. History\n");
-    printf("5. Exit\n");
+    printf("3. History\n");
+    printf("4. Exit\n");
     
     printf("\nWhat would you like to do?: ");
 }
@@ -33,12 +33,12 @@ void viewTasks(int taskCount, char *filename){
     file = fopen(filename, "r");
     char lineBuffer[255];
     int lineNumber = 1;
-
     char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
+if(taskCount <= 10){
     while(line){
         printf("%d. ", lineNumber);
         lineNumber++;
-        char *token = strtok(lineBuffer, ",");
+        char *token = strtok(lineBuffer, "|");
 
         for(int i = 1; i <= overviewLimit; i++){
             int tokenLength = strlen(token);
@@ -53,11 +53,36 @@ void viewTasks(int taskCount, char *filename){
                 case 3: /* third index = deadline */
                     deadlineFormat(token);
             }
-            token = strtok(NULL, ",");
+            token = strtok(NULL, "|");
         }
         line = fgets(lineBuffer, sizeof(lineBuffer), file); // Read next line
     }
+    fclose(file);    
+}
+
+else if(taskCount > 10){
+    for(int i = 1; i <= 10; i++){
+        printf("%d. ", i);
+        char *token = strtok(lineBuffer, "|");
+
+        for(int j = 1; j <= overviewLimit; j++){
+            int tokenLength= strlen(token);
+            switch(j){
+                case 1: /* name */
+                    nameFormat(token, tokenLength);
+                    break;
+                case 2: /* tag */
+                    tagFormat(token, tokenLength);
+                    break;
+                case 3: /* deadline */
+                    deadlineFormat(token);
+            }
+            token = strtok(NULL, "|");
+        }
+        line = fgets(lineBuffer, sizeof(lineBuffer), file);
+    }
     fclose(file);
+}
 
 
 /*     taskNumber < 7
@@ -105,6 +130,31 @@ void viewTasks(int taskCount, char *filename){
     //have an access to reading the tasks.txt to and print an overview to the console.
     //take in user input to select a certain task, to go to next page, the previous page, as well as the menu.
 }
+
+
+char viewTaskChoice(){
+    printf("B = Back     N = Next Page     P = Previous Page\n\n");
+    printf("What do you want to do?: ");
+    char option;
+    clearBuffer();
+    scanf("%c", &option);
+
+     if(option == 'b' || option == 'b'){
+        return 'b';
+    }
+
+    else if(option == 'n' || option == 'n'){
+        return 'n';
+    }
+
+    else if(option == 'p' || option == 'P'){
+        return 'p';
+    }
+
+    return option;
+}
+
+
 
 
 void displayTask(char *filename){

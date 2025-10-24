@@ -1,11 +1,16 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #include "ctrl/ctrl.h"
 #include "view/view.h"
+#include "task.h"
 
 
 
 int main(){
+char continue_running = 'y';
+while(continue_running == 'y'){
+
     landingPage();
 
     int choice;
@@ -15,10 +20,10 @@ int main(){
             int taskCount = countTasks("tasks.txt"); 
             if(taskCount){
                 viewTasks(taskCount, "tasks.txt"); // lists task
-                printChoices(taskCount, "tasks.txt"); //prints out choices and prompts the user
-
-
-                
+                char taskChoice = viewTaskChoice(); //prints out choices and prompts the user
+                switch(taskChoice){
+                    case 'b': break;
+                }                
                 break;
             }
 
@@ -27,19 +32,14 @@ int main(){
                    
         case 2: addTask("tasks.txt");
                 break;
-        case 3: manageTasks("tasks.txt");
+
+        case 3: history("tasks.txt");
                 break;
-        case 4: history("tasks.txt");
+        case 4: printf("Thank you for using Smark Tasker.\n");
+                continue_running = 'n';
                 break;
-        case 5: printf("Thank you for using Smark Tasker.\n");
-                exit(0);
     }
-
-    /* 
-    
-    MAIN.C
-
-    */
+}
 
     return 0;
 }
