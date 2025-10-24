@@ -3,5 +3,6 @@
         "stdio.h": "c",
         "ctrl.h": "c",
         "view.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

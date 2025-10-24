@@ -6,7 +6,7 @@ OBJ = $(SRC:.c=.o)
 RM = del /Q
 
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ) -mconsole
 
 run: $(TARGET)
 	./$(TARGET)
