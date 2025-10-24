@@ -16,7 +16,7 @@ int main(){
                 break;
         case 3: history("tasks.txt");
                 break;
-        case 4: printf("Thank you for using Smark Tasker.\n");
+        case 4: printf("Thank you for using Smart Tasker.\n");
                 exit(0);
     }
 
