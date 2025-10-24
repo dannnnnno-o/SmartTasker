@@ -16,19 +16,32 @@ while(continue_running == 'y'){
     int choice;
     scanf("%d", &choice);
     switch(choice){
+
         case 1: // View Tasks //
             int taskCount = countTasks("tasks.txt"); 
             if(taskCount){
                 viewTasks(taskCount, "tasks.txt"); // lists task
-                char taskChoice = viewTaskChoice(); //prints out choices and prompts the user
+                char taskChoice = viewTaskChoice(); //prints out choices and prompts the user, returns the input to char taskChoice
+
                 switch(taskChoice){
                     case 'b': break;
-                }                
+                }            
                 break;
             }
-
         printf("There are no tasks available.\n");
         break;
+
+
+
+
+
+
+
+
+
+
+
+
                    
         case 2: addTask("tasks.txt");
                 break;
