@@ -4,7 +4,7 @@
 #include "ctrl.h"
 #include "../view/view.h"
 #define limit 16
-
+/* GENERAL FUNCTIONS */
 int no_file(char *filename){
     FILE *file = fopen(filename, "r");
 
@@ -15,8 +15,19 @@ int no_file(char *filename){
     return 1; // if file does not exists
 }
 
+void make_file(char *file){
+        if(no_file(file)){ // if tasks aren't found, make one.
+        FILE *tmpFile = fopen(file, "w");
+        fclose(tmpFile);
+    }
+}
+/* END OF GENERAL FUNCTIONS */
 
+
+
+/* START OF ViewTask */
 int landingChoice(){
+
     int choice;
     scanf("%d", &choice);
     return choice;
@@ -25,13 +36,6 @@ int landingChoice(){
 void taskOverview(char *filename){
     FILE *file = fopen(filename, "r");
     fclose(file);
-}
-
-void make_file(char *file){
-        if(no_file(file)){ // if tasks aren't found, make one.
-        FILE *tmpFile = fopen(file, "w");
-        fclose(tmpFile);
-    }
 }
 
 void nameFormat(char *text, int len){
@@ -100,3 +104,4 @@ void selectTask(char* taskName){
     fclose(file);
 }
 
+/* End */

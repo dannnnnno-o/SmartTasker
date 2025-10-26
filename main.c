@@ -3,7 +3,10 @@
 #include "ctrl/ctrl.h"
 #include "view/view.h"
 
-
+int PROFIT(int TR, int TC){
+        // printf("%d", TR - TC);
+        return TR - TC;
+}
 
 int main(){
     landingPage();

@@ -100,7 +100,7 @@ void viewTasks(char *filename){
     printf("9. Go Back\n");  
 */
 /*      taskNumber > 7 page 2
-    printf("1. Cook Dinner2           @Personal    #9/17/25\n");
+    printf("1. Cook Dinner           @Personal    #9/17/25\n");
     printf("2. Submit Podcast        @School      #9/18/25\n");
     printf("3. Review for MMW        @School      #9/19/25\n");
     printf("4. Submit Podcast        @School      #9/18/25\n");
