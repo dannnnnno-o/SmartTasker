@@ -1,5 +1,5 @@
-Cook Dinner|Personal|9/17/25|Prepare a meal for the family by 8pm|8
-Review for MMW|School|9/19/25|finish worksheet | 10
-Cook Dinner|Personal|9/17/25|prep meal 2| 8
-Submit Podcast|School|9/17/25|finish editing and upload podcast to drive| 7.5
-Review for MMW|School|9/19/25|review for final exam|9
+1|Cook Dinner|Personal|9/17/25|Prepare a meal for the family by 8pm|8
+2|Review for MMW|School|9/19/25|finish worksheet | 10
+3|Cook Dinner|Personal|9/17/25|prep meal 2| 8
+4|Submit Podcast|School|9/17/25|finish editing and upload podcast to drive| 7.5
+5|Review for MMW|School|9/19/25|review for final exam|9

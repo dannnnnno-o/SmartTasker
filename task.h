@@ -7,6 +7,7 @@ struct Task {
     char *tag;
     char *deadline;
     char *description;
+    char *difficulty;
 };
 
 #endif
