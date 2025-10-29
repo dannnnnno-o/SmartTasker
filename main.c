@@ -21,7 +21,7 @@ while(continue_running == 'y'){
             int taskCount = countTasks("tasks.txt"); 
             if(taskCount){
                 viewTasks(taskCount, "tasks.txt"); // lists task
-                char taskChoice = viewTaskChoice(); //prints out choices and prompts the user, returns the input to char taskChoice
+                char taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char taskChoice
 
                 switch(taskChoice){
                     case 'b': break;
@@ -48,7 +48,7 @@ while(continue_running == 'y'){
 
         case 3: history("tasks.txt");
                 break;
-        case 4: printf("Thank you for using Smark Tasker.\n");
+        case 4: printf("Thank you for using Smart Tasker.\n");
                 continue_running = 'n';
                 break;
     }

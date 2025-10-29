@@ -4,7 +4,7 @@
 #include "ctrl.h"
 #include "../view/view.h"
 #include "../task.h"
-#define limit 16
+#define limit 15
 
 int no_file(char *filename){
     FILE *file = fopen(filename, "r");
@@ -66,25 +66,29 @@ void nameFormat(char *text, int len){
 void tagFormat(char *tag, int len){
     printf("\t\t\t");
     if(len == limit){
-        printf("%s", tag);
+        printf("@%s", tag);
     }
 
     else if(len < limit){
-        printf("#%s", tag);
+        printf("@%s", tag);
         for(int i = len; i < limit; i++){
             printf(" ");
         }
     }
 
     else if (len > limit){
-        char newTag[limit - 3]; // -3 for ellipses
-        strncpy(newTag, tag, limit - 4); // -4 for cutting of the last three letters and null terminator
-        printf("%s...", newTag);
+        char newTag[limit - 4]; // -3 for ellipses
+        strncpy(newTag, tag, limit - 6); // -4 for cutting of the last three letters and null terminator
+        printf("@%s...", newTag);
     }
 }
 
 void deadlineFormat(char *deadline){
-    printf("| %s |\n", deadline);
+    printf("| %s |    ", deadline);
+}
+
+void difficultyFormat(char *difficulty){
+    printf("    %s", difficulty);
 }
 
 int countTasks(char *filename){

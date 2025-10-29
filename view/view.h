@@ -8,7 +8,7 @@ void landingPage();
 
 void viewTasks(int taskCount, char *filename);
 
-char viewTaskChoice();
+char viewTaskChoice(int taskCount);
 
 void displayTask(char *filename);
 

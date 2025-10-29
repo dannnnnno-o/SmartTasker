@@ -5,7 +5,7 @@
 #include "../ctrl/ctrl.h"
 #include "../task.h"
 #define limit 16 // UI text overflow limit
-#define overviewLimit 6
+#define taskAttributes 6
 #define taskLimit 9
 
 void clear(){system("cls");}
@@ -21,7 +21,7 @@ void landingPage(){
 }
 
 void printTask(struct Task task){
-    printf("%s. ", task.id);
+    // printf("%s. ", task.id);
     printf("%s   ", task.name);
     printf("@%s ", task.tag);
     printf("|%s| ", task.deadline);
@@ -29,104 +29,55 @@ void printTask(struct Task task){
 }
 
 
-
 void viewTasks(int taskCount, char *filename){
+
+    printf("\n      Name                                Tag             Deadline     Difficulty(?/10)\n");
+    printf("-----------------------------------------------------------------------------------------------\n");
     if(no_file(filename)){
         make_file(filename);
     }
     FILE *file;
     file = fopen(filename, "r");
     char lineBuffer[255];
-    // int id = 1;
 
-    char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
-    
-    
-if(taskCount < 10){
-    struct Task taskList[9];
-    struct Task task;
-    for(int i = 1; i <= taskCount; i++) {
-        int size = i - 1;
+    struct Task taskList[taskCount - 1]; // define task array
+    // int listLength = sizeof(taskList)/sizeof(taskList[0]); // size of array
+
+    struct Task task; // task attributes changes per iteration
+    int n = 0; //index for keeping track
+    while(fgets(lineBuffer, sizeof(lineBuffer), file)){
         char *token = strtok(lineBuffer, "|");
-        for(int j = 1; j <= overviewLimit; j++){
-            // int tokenLength = strlen(token);
-            switch(j){
-                case 1: /* id */
-                    task.id = token;
-                    break;
-                case 2: /* = name */
-                    task.name = token;
-                    // nameFormat(token, tokenLength);
-                    break;
-                case 3: /* tag */
-                    task.tag = token;
-                    // tagFormat(token, tokenLength);
-                    break;
-                case 4: /* deadline */
-                    task.deadline = token;
-                    // deadlineFormat(token);
-                case 5: /* description */
-                    task.description = token;
-                    break;
-                case 6: /* difficulty */
-                    task.difficulty = token;
-                    break;
+        for(int i = 0; i < taskAttributes; i++){
+            int tokenLen = strlen(token);
+            switch(i){
+                case 0: /* id */
+                printf("%s. ", token); task.id = strdup(token); break;
+                case 1: /* name */
+                nameFormat(token, tokenLen); task.name = strdup(token); break;
+                case 2: /* tag */
+                tagFormat(token, tokenLen); task.tag = strdup(token); break;
+                case 3: /* deadline */
+                deadlineFormat(token); task.deadline = strdup(token); break;
+                case 4: /* description */
+                task.description = strdup(token); break;
+                case 5: /* difficulty */
+                difficultyFormat(token); task.difficulty= strdup(token); break;
             }
             token = strtok(NULL, "|");
         }
-        taskList[size] = task;
-        size++;
-        printTask(task);
-        line = fgets(lineBuffer, sizeof(lineBuffer), file); // Read next line
+        taskList[n] = task;
+        n++;
     }
-
+    printf("\n\n");
     fclose(file);    
 }
 
-else if(taskCount > 10){
-    for(int i = 1; i <= 10; i++){
-        printf("%d. ", i);
-        char *token = strtok(lineBuffer, "|");
-
-        for(int j = 1; j <= overviewLimit; j++){
-            int tokenLength= strlen(token);
-            switch(j){
-                case 1: /* name */
-                    nameFormat(token, tokenLength);
-                    break;
-                case 2: /* tag */
-                    tagFormat(token, tokenLength);
-                    break;
-                case 3: /* deadline */
-                    deadlineFormat(token);
-            }
-            token = strtok(NULL, "|");
-        }
-        line = fgets(lineBuffer, sizeof(lineBuffer), file);
-    }
-    fclose(file);
-}
-
-/*      taskNumber > 7 page 2
-    printf("1. Cook Dinner2           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Submit Podcast        @School      #9/18/25\n");
-    printf("5. Review for MMW        @School      #9/19/25\n");
-    printf("6. Submit Podcast        @School      #9/18/25\n");
-    printf("7. Review for MMW        @School      #9/19/25\n");
-    printf("8. Previous Page\n"); 
-    printf("9. Next Page\n"); 
-    printf("0. Go Back\n");  
-*/
-
     //have an access to reading the tasks.txt to and print an overview to the console.
     //take in user input to select a certain task, to go to next page, the previous page, as well as the menu.
-}
 
 
-char viewTaskChoice(){
-    printf("B = Back     N = Next Page     P = Previous Page\n\n");
+char viewTaskChoice(int taskCount){
+    printf("B = Back, 1-%d = Task Detail.\n", taskCount);
     printf("What do you want to do?: ");
     char option;
     clearBuffer();
@@ -134,14 +85,6 @@ char viewTaskChoice(){
 
      if(option == 'b' || option == 'b'){
         return 'b';
-    }
-
-    else if(option == 'n' || option == 'n'){
-        return 'n';
-    }
-
-    else if(option == 'p' || option == 'P'){
-        return 'p';
     }
 
     return option;
@@ -154,7 +97,6 @@ void displayTask(char *filename){
     printf("displayTask");
     //After selecting a specific task, display all it's information
     //Add a next and previous (if available), return, submit, and remove button.
-
 }
 
 void addTask(char *filename){
@@ -162,8 +104,6 @@ void addTask(char *filename){
     /* 
     NAME:
     DES:
-
-
 
  */
 
