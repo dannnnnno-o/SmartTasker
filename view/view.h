@@ -6,9 +6,9 @@ void clear();
 
 void landingPage();
 
-void viewTasks(int taskCount, char *filename);
+struct Task *viewTasks(int taskCount, char *filename);
 
-char viewTaskChoice(int taskCount);
+char *viewTaskChoice(int taskCount);
 
 void displayTask(char *filename);
 

@@ -4,6 +4,7 @@
 int no_file(char *filename);
 void make_file(char *filename);
 int countTasks(char *filename);
+int isValidNumber(char *str);
 
 /* 1. View Tasks */
 
@@ -13,6 +14,8 @@ void deadlineFormat(char *deadline);
 void difficultyFormat(char *difficulty);
 void clearBuffer();
 char *toStr(int x);
+int isTaskId(char *taskId, int taskCount);
+struct Task selectTask(struct Task *taskList, int taskCount, char *taskId);
 
 /* END OF 1. View Tasks */
 

@@ -29,7 +29,7 @@ void printTask(struct Task task){
 }
 
 
-void viewTasks(int taskCount, char *filename){
+struct Task *viewTasks(int taskCount, char *filename){
 
     printf("\n      Name                                Tag             Deadline     Difficulty(?/10)\n");
     printf("-----------------------------------------------------------------------------------------------\n");
@@ -40,7 +40,7 @@ void viewTasks(int taskCount, char *filename){
     file = fopen(filename, "r");
     char lineBuffer[255];
 
-    struct Task taskList[taskCount - 1]; // define task array
+    struct Task *taskList = malloc(taskCount * sizeof(struct Task)); // define task array
     // int listLength = sizeof(taskList)/sizeof(taskList[0]); // size of array
 
     struct Task task; // task attributes changes per iteration
@@ -69,22 +69,34 @@ void viewTasks(int taskCount, char *filename){
         n++;
     }
     printf("\n\n");
-    fclose(file);    
+    fclose(file);   
+    return taskList; 
 }
 
     //have an access to reading the tasks.txt to and print an overview to the console.
     //take in user input to select a certain task, to go to next page, the previous page, as well as the menu.
 
 
-char viewTaskChoice(int taskCount){
-    printf("B = Back, 1-%d = Task Detail.\n", taskCount);
+char *viewTaskChoice(int taskCount){
+    if(taskCount == 1)
+    {printf("B = Back, %d = Task Detail\n", taskCount);}
+    else if(taskCount > 1)
+    {printf("B = Back, 1-%d = Task Detail.\n", taskCount);}
+    
     printf("What do you want to do?: ");
-    char option;
-    clearBuffer();
-    scanf("%c", &option);
+    char *option = malloc(16);
+    if(!option) return NULL;
 
-     if(option == 'b' || option == 'b'){
-        return 'b';
+
+
+    clearBuffer();
+    if(scanf("%s", option) != 1){
+        free(option);
+        return NULL;
+    }
+
+     if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
+        return "b";
     }
 
     return option;

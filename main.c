@@ -1,6 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include "ctrl/ctrl.h"
 #include "view/view.h"
 #include "task.h"
@@ -20,26 +21,24 @@ while(continue_running == 'y'){
         case 1: // View Tasks //
             int taskCount = countTasks("tasks.txt"); 
             if(taskCount){
-                viewTasks(taskCount, "tasks.txt"); // lists task
-                char taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char taskChoice
+                struct Task *tasks = viewTasks(taskCount, "tasks.txt"); // lists task
+                
+                char *taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
 
-                switch(taskChoice){
-                    case 'b': break;
-                }            
+
+                if(strcmp(taskChoice, "b") == 0){ free(taskChoice); free(tasks); break;}
+
+                else if(isTaskId(taskChoice, taskCount)){
+                    struct Task selectedTask = selectTask(tasks, taskCount, taskChoice);
+                    printTask(selectedTask);
+                }
+
+                free(taskChoice);
+                free(tasks);
                 break;
             }
         printf("There are no tasks available.\n");
         break;
-
-
-
-
-
-
-
-
-
-
 
 
                    

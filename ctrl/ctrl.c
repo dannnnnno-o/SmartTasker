@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "ctrl.h"
 #include "../view/view.h"
 #include "../task.h"
@@ -36,7 +37,17 @@ void clearBuffer(){
     while((emptyChar = getchar()) != '\n' && emptyChar != EOF){/* do nothing because the while loop will run until the input buffer is cleared*/}
 }
 
-
+int isValidNumber(char *str){
+    for(int i = 0; i < strlen(str); i++){
+        if(isdigit(str[i])){
+            continue;
+        }
+        else{
+            return 0; // false = not a valid number
+        }
+    }
+    return 1;
+}
 
 
 /* 1. View Tasks */
@@ -107,12 +118,24 @@ int countTasks(char *filename){
     return taskNumber;
 }
 
-void selectTask(char* taskName){
-    FILE *file = fopen(taskName, "r");
+int isTaskId(char *taskId, int taskCount){
+    if(isValidNumber(taskId)){
+        if(atoi(taskId) < 0 || atoi(taskId) > taskCount ){
+            return 0; // false = not a valid Task ID
+        }
+    }
+    return 1;
+}
 
-
-
-    fclose(file);
+struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
+    for(int i = 0; i < taskCount; i++){
+        if(strcmp(taskList[i].id, taskId) == 0){
+            return taskList[i]; 
+        }
+        continue;
+    }
+    struct Task emptyTask = {0};  // Initialize all fields to 0/NULL
+    return emptyTask;
 }
 
 
