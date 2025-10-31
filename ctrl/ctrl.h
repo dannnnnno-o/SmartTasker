@@ -16,6 +16,8 @@ void clearBuffer();
 char *toStr(int x);
 int isTaskId(char *taskId, int taskCount);
 struct Task selectTask(struct Task *taskList, int taskCount, char *taskId);
+char *scanBack(char *option);
+
 
 /* END OF 1. View Tasks */
 

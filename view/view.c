@@ -22,7 +22,7 @@ void landingPage(){
 }
 
 void printTask(struct Task task){
-    // printf("%s. ", task.id);
+    printf("%s. ", task.id);
     printf("%s   ", task.name);
     printf("@%s ", task.tag);
     printf("|%s| ", task.deadline);
@@ -86,9 +86,7 @@ char *viewTaskChoice(int taskCount){
     
     printf("What do you want to do?: ");
     char *option = malloc(16);
-    if(!option) return NULL;
-
-
+    if(!option){return NULL;}
 
     clearBuffer();
     if(scanf("%s", option) != 1){
@@ -96,15 +94,16 @@ char *viewTaskChoice(int taskCount){
         return NULL;
     }
 
-     if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
-        return "b";
+    if(scanBack(option)){
+        return scanBack(option);
     }
+    /*  if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
+        strcpy(option, "b");
+        return option;
+    } */
 
     return option;
 }
-
-
-
 
 void displayTask(char *filename){
     printf("displayTask");
@@ -112,25 +111,67 @@ void displayTask(char *filename){
     //Add a next and previous (if available), return, submit, and remove button.
 }
 
-void addTask(char *filename){
-    printf("Add\n");
-    /* 
+int addTask(char *filename){
+    printf("Add Task\n");
+
+    if(no_file(filename)){
+        make_file(filename);
+    }
+
+    FILE *file = fopen(filename, "a");
+
+    struct Task task = {0};
+    char strBuffer[256];
+
+    task.id = toStr(countTasks(filename) + 1);
+    
+    clearBuffer();
+
+    //name
+    printf("Input task name: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.name = strdup(strBuffer);
+
+    //tag
+    printf("Input task tag: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.tag = strdup(strBuffer);   
+
+    //deadline
+    printf("Input task deadline: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.deadline = strdup(strBuffer);  
+
+    //description
+    printf("Input task description: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.description = strdup(strBuffer);   
+
+    //difficulty
+    printf("Input task difficulty: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.difficulty = strdup(strBuffer);  
+
+    // printTask(task);
+
+    fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline,task.description, task.difficulty);
+
+    fclose(file);
+
+    return 0;
+/* 
     NAME:
-    DES:
-
+    TAG:
+    DEADLINE:
+    DESCRIPTION:
+    DIFFICULTY:
  */
-
-
-    //have an access to tasks.txt, and append user input 
-    //text format not yet to be disclosed.
 }
-
-/* void manageTasks(char *filename){
-    printf("Manage\n");
-    //also have an read access to tasks.txt have an overview
-    //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.
-    //after tasks are removed or completed, they will be moved to records.txt
-} */
 
 void statistics(char *filename){
     printf("Statistics\n");
@@ -140,8 +181,22 @@ void statistics(char *filename){
     //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
 }
 
-struct Task *search(){
-    printf("Search\n");
-    struct Task *task = {0};
-    return task;
+char *search(){
+    printf("Search a tag by: \n");
+    printf("1. Name    2. Tag    3. Deadline\n");
+
+    char *option = malloc(16);
+    if(!option){return NULL;}
+
+    clearBuffer();
+    if(scanf("%s", option) != 1){
+        free(option);
+        return NULL;
+    }
+
+    if(scanBack(option)){
+        return scanBack(option);
+    }
+
+    return option;
 }

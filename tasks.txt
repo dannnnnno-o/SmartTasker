@@ -10,3 +10,5 @@
 10|Review for MMW|School|9/19/25|review for final exam|9
 11|Review for MMW|School|9/19/25|review for final exam|9
 12|Review for MMW|School|9/19/25|review for final exam|9
+13|finish comprog system|school|11/3/25|finish comprog system source code by monday, preferably much earlier to have time preparing the other members for defense|9.5
+14|sleep|personal|11/1/25|have enough sleep|9.5
