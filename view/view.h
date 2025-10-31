@@ -14,7 +14,9 @@ void displayTask(char *filename);
 
 void addTask(char *filename);
 
-void history(char *filename);
+void statistics(char *filename);
+
+struct Task *search(/* can be id, name, or date */);
 
 void printTask(struct Task task);
 
