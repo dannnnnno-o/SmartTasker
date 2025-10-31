@@ -42,7 +42,6 @@ struct Task *viewTasks(int taskCount, char *filename){
     char lineBuffer[255];
 
     struct Task *taskList = malloc(taskCount * sizeof(struct Task)); // define task array
-    // int listLength = sizeof(taskList)/sizeof(taskList[0]); // size of array
 
     struct Task task; // task attributes changes per iteration
     int n = 0; //index for keeping track
@@ -73,9 +72,6 @@ struct Task *viewTasks(int taskCount, char *filename){
     fclose(file);   
     return taskList; 
 }
-
-    //have an access to reading the tasks.txt to and print an overview to the console.
-    //take in user input to select a certain task, to go to next page, the previous page, as well as the menu.
 
 
 char *viewTaskChoice(int taskCount){
@@ -182,8 +178,8 @@ void statistics(char *filename){
 }
 
 char *search(){
-    printf("Search a tag by: \n");
-    printf("1. Name    2. Tag    3. Deadline\n");
+    printf("Search a task by: \n");
+    printf("B = Back\n1. Name\n2. Tag\n3. Deadline\n");
 
     char *option = malloc(16);
     if(!option){return NULL;}

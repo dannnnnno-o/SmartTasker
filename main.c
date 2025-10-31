@@ -25,7 +25,6 @@ while(continue_running == 'y'){
                 
                 char *taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
 
-
                 if(strcmp(taskChoice, "b") == 0){ free(taskChoice); free(tasks); break;}
 
                 else if(isTaskId(taskChoice, taskCount)){
@@ -54,14 +53,37 @@ while(continue_running == 'y'){
         case 3: statistics("records.txt");
                 break;
 
-        case 4: search();
+        case 4: clear();
+                int searchInput = search();
+                struct Task *tasks = {0};
+
+                switch(searchInput){
+                    case 1: /* Name */
+                        tasks = getSimilarNames("tasks.txt");
+                        char *choice = viewSimilarTasks(tasks);
+
+                        break;
+                    case 2: /* Tag */
+                        tasks = getSimilarTags("tasks.txt");
+                        viewSimilarTasks(tasks);
+                        break;
+                    case 3: /* Deadline */
+                        tasks = getSimilarDeadlines("tasks.txt");
+                        viewSimilarTasks(tasks);
+                
+                        break;
+                }
+
+
                 break;
 
         case 5: clear();
                 printf("Thank you for using Smart Tasker.\n");
                 continue_running = 'n';
                 break;
+        default: break;
     }
+
 }
 
     return 0;

@@ -149,3 +149,24 @@ char *scanBack(char *option){
     }
     return NULL;
 }
+
+int searchKey(char *option){
+    int name; // "1"
+    int tag; // "2"
+    int deadline;// "3"
+
+
+    if(strcmp(option, "1") == 0){
+        return 1;
+    }
+    else if(strcmp(option, "2") == 0){
+        return 2;
+    }
+    else if(strcmp(option, "3") == 0){
+        return 3;
+    }
+    else{
+        return 0;
+    }
+
+}
