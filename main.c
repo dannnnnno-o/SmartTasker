@@ -45,9 +45,13 @@ while(continue_running == 'y'){
         case 2: addTask("tasks.txt");
                 break;
 
-        case 3: history("tasks.txt");
+        case 3: statistics("records.txt");
                 break;
-        case 4: printf("Thank you for using Smart Tasker.\n");
+
+        case 4: search();
+                break;
+
+        case 5: printf("Thank you for using Smart Tasker.\n");
                 continue_running = 'n';
                 break;
     }

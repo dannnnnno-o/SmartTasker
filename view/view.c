@@ -14,8 +14,9 @@ void landingPage(){
     printf("Welcome to Smart Tasker.\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
-    printf("3. History\n");
-    printf("4. Exit\n");
+    printf("3. Statistics\n");
+    printf("4. Search\n");
+    printf("5. Exit\n");
     
     printf("\nWhat would you like to do?: ");
 }
@@ -131,10 +132,16 @@ void addTask(char *filename){
     //after tasks are removed or completed, they will be moved to records.txt
 } */
 
-void history(char *filename){
-    printf("History\n");
+void statistics(char *filename){
+    printf("Statistics\n");
     //have an access to records.txt and display the overview of removed/submitted tasks
     //by default, a user is allowed to select a certain task at once and have an option to restore it or to simply return
 
     //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
+}
+
+struct Task *search(){
+    printf("Search\n");
+    struct Task *task = {0};
+    return task;
 }
