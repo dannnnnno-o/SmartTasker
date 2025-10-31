@@ -11,14 +11,14 @@
 int main(){
 char continue_running = 'y';
 while(continue_running == 'y'){
-
+    clear();
     landingPage();
 
     int choice;
     scanf("%d", &choice);
     switch(choice){
 
-        case 1: // View Tasks //
+        case 1: clear(); // View Tasks //
             int taskCount = countTasks("tasks.txt"); 
             if(taskCount){
                 struct Task *tasks = viewTasks(taskCount, "tasks.txt"); // lists task
@@ -42,8 +42,14 @@ while(continue_running == 'y'){
 
 
                    
-        case 2: addTask("tasks.txt");
-                break;
+        case 2: clear(); 
+            if(addTask("tasks.txt") == 0){
+            printf("Task added successfully.\n");
+            break;
+        }
+            printf("Failed to add task.\n");
+            break;
+
 
         case 3: statistics("records.txt");
                 break;
@@ -51,7 +57,8 @@ while(continue_running == 'y'){
         case 4: search();
                 break;
 
-        case 5: printf("Thank you for using Smart Tasker.\n");
+        case 5: clear();
+                printf("Thank you for using Smart Tasker.\n");
                 continue_running = 'n';
                 break;
     }

@@ -28,7 +28,7 @@ char *toStr(int x){
     char str[] = "  ";
     sprintf(str, "%d", x);
     char *strValue = str; 
-    return strValue;
+    return strdup(strValue);
 }
 
 
@@ -140,3 +140,12 @@ struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
 
 
 /* END OF 1. View Tasks */
+
+/* START OF 4. SEARCH */
+
+char *scanBack(char *option){
+    if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
+        return strcpy(option, "b");
+    }
+    return NULL;
+}

@@ -12,11 +12,11 @@ char *viewTaskChoice(int taskCount);
 
 void displayTask(char *filename);
 
-void addTask(char *filename);
+int addTask(char *filename); // returns 0 if no probs
 
 void statistics(char *filename);
 
-struct Task *search(/* can be id, name, or date */);
+char *search(/* name, tag, or date */);
 
 void printTask(struct Task task);
 
