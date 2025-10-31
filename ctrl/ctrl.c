@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "ctrl.h"
 #include "../view/view.h"
-#define limit 16
+#include "../task.h"
+#define limit 15
 
 int no_file(char *filename){
     FILE *file = fopen(filename, "r");
@@ -15,23 +17,43 @@ int no_file(char *filename){
     return 1; // if file does not exists
 }
 
-
-int landingChoice(){
-    int choice;
-    scanf("%d", &choice);
-    return choice;
-}
-
-void taskOverview(char *filename){
-    FILE *file = fopen(filename, "r");
-    fclose(file);
-}
-
 void make_file(char *file){
         if(no_file(file)){ // if tasks aren't found, make one.
         FILE *tmpFile = fopen(file, "w");
         fclose(tmpFile);
     }
+}
+
+char *toStr(int x){
+    char str[] = "  ";
+    sprintf(str, "%d", x);
+    char *strValue = str; 
+    return strValue;
+}
+
+
+void clearBuffer(){
+    int emptyChar;
+    while((emptyChar = getchar()) != '\n' && emptyChar != EOF){/* do nothing because the while loop will run until the input buffer is cleared*/}
+}
+
+int isValidNumber(char *str){
+    for(int i = 0; i < strlen(str); i++){
+        if(isdigit(str[i])){
+            continue;
+        }
+        else{
+            return 0; // false = not a valid number
+        }
+    }
+    return 1;
+}
+
+
+/* 1. View Tasks */
+void taskOverview(char *filename){
+    FILE *file = fopen(filename, "r");
+    fclose(file);
 }
 
 void nameFormat(char *text, int len){
@@ -55,25 +77,29 @@ void nameFormat(char *text, int len){
 void tagFormat(char *tag, int len){
     printf("\t\t\t");
     if(len == limit){
-        printf("%s", tag);
+        printf("@%s", tag);
     }
 
     else if(len < limit){
-        printf("#%s", tag);
+        printf("@%s", tag);
         for(int i = len; i < limit; i++){
             printf(" ");
         }
     }
 
     else if (len > limit){
-        char newTag[limit - 3]; // -3 for ellipses
-        strncpy(newTag, tag, limit - 4); // -4 for cutting of the last three letters and null terminator
-        printf("%s...", newTag);
+        char newTag[limit - 4]; // -3 for ellipses
+        strncpy(newTag, tag, limit - 6); // -4 for cutting of the last three letters and null terminator
+        printf("@%s...", newTag);
     }
 }
 
 void deadlineFormat(char *deadline){
-    printf("| %s |\n", deadline);
+    printf("| %s |    ", deadline);
+}
+
+void difficultyFormat(char *difficulty){
+    printf("    %s", difficulty);
 }
 
 int countTasks(char *filename){
@@ -92,11 +118,25 @@ int countTasks(char *filename){
     return taskNumber;
 }
 
-void selectTask(char* taskName){
-    FILE *file = fopen(taskName, "r");
-
-
-
-    fclose(file);
+int isTaskId(char *taskId, int taskCount){
+    if(isValidNumber(taskId)){
+        if(atoi(taskId) < 0 || atoi(taskId) > taskCount ){
+            return 0; // false = not a valid Task ID
+        }
+    }
+    return 1;
 }
 
+struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
+    for(int i = 0; i < taskCount; i++){
+        if(strcmp(taskList[i].id, taskId) == 0){
+            return taskList[i]; 
+        }
+        continue;
+    }
+    struct Task emptyTask = {0};  // Initialize all fields to 0/NULL
+    return emptyTask;
+}
+
+
+/* END OF 1. View Tasks */

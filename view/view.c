@@ -3,9 +3,10 @@
 #include <string.h>
 #include "view.h"
 #include "../ctrl/ctrl.h"
+#include "../task.h"
 #define limit 16 // UI text overflow limit
-#define overviewLimit 3
-#define taskLimit 7
+#define taskAttributes 6
+#define taskLimit 9
 
 void clear(){system("cls");}
 
@@ -13,124 +14,122 @@ void landingPage(){
     printf("Welcome to Smart Tasker.\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
-    printf("3. Manage Tasks\n");
-    printf("4. History\n");
-    printf("5. Exit\n");
+    printf("3. History\n");
+    printf("4. Exit\n");
     
     printf("\nWhat would you like to do?: ");
 }
 
-void View(int choice){
-    
+void printTask(struct Task task){
+    // printf("%s. ", task.id);
+    printf("%s   ", task.name);
+    printf("@%s ", task.tag);
+    printf("|%s| ", task.deadline);
+    printf("%s\n", task.difficulty);
 }
 
-void viewTasks(char *filename){
+
+struct Task *viewTasks(int taskCount, char *filename){
+
+    printf("\n      Name                                Tag             Deadline     Difficulty(?/10)\n");
+    printf("-----------------------------------------------------------------------------------------------\n");
     if(no_file(filename)){
         make_file(filename);
     }
-
-    int taskCount = countTasks("tasks.txt");
-
-    if(!taskCount){
-        printf("There are no tasks available.");
-    }
-
-    else if(taskCount <= taskLimit){
-
-    }
-
     FILE *file;
     file = fopen(filename, "r");
     char lineBuffer[255];
-    int lineNumber = 1;
 
-    char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
-    while(line){
-        printf("%d. ", lineNumber);
-        lineNumber++;
-        char *token = strtok(lineBuffer, ",");
+    struct Task *taskList = malloc(taskCount * sizeof(struct Task)); // define task array
+    // int listLength = sizeof(taskList)/sizeof(taskList[0]); // size of array
 
-        for(int i = 1; i <= overviewLimit; i++){
-            int tokenLength = strlen(token);
+    struct Task task; // task attributes changes per iteration
+    int n = 0; //index for keeping track
+    while(fgets(lineBuffer, sizeof(lineBuffer), file)){
+        char *token = strtok(lineBuffer, "|");
+        for(int i = 0; i < taskAttributes; i++){
+            int tokenLen = strlen(token);
             switch(i){
-                case 1: /* first index = name */
-                    //char* name = token
-                    nameFormat(token, tokenLength);
-                    break;
-                case 2: /* second index = tag */
-                    tagFormat(token, tokenLength);
-                    break;
-                case 3: /* third index = deadline */
-                    deadlineFormat(token);
+                case 0: /* id */
+                printf("%s. ", token); task.id = strdup(token); break;
+                case 1: /* name */
+                nameFormat(token, tokenLen); task.name = strdup(token); break;
+                case 2: /* tag */
+                tagFormat(token, tokenLen); task.tag = strdup(token); break;
+                case 3: /* deadline */
+                deadlineFormat(token); task.deadline = strdup(token); break;
+                case 4: /* description */
+                task.description = strdup(token); break;
+                case 5: /* difficulty */
+                difficultyFormat(token); task.difficulty= strdup(token); break;
             }
-            token = strtok(NULL, ",");
+            token = strtok(NULL, "|");
         }
-        line = fgets(lineBuffer, sizeof(lineBuffer), file); // Read next line
+        taskList[n] = task;
+        n++;
     }
-    fclose(file);
-
-
-/*     taskNumber < 7
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Go Back\n");
-*/
-
-/*      taskNumber == 7
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Submit Podcast        @School      #9/18/25\n");
-    printf("5. Review for MMW        @School      #9/19/25\n");
-    printf("6. Submit Podcast        @School      #9/18/25\n");
-    printf("7. Review for MMW        @School      #9/19/25\n");
-    printf("8. Go Back\n"); 
-*/
-    
-/*      taskNumber > 7 page 1
-    printf("1. Cook Dinner           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Submit Podcast        @School      #9/18/25\n");
-    printf("5. Review for MMW        @School      #9/19/25\n");
-    printf("6. Submit Podcast        @School      #9/18/25\n");
-    printf("7. Review for MMW        @School      #9/19/25\n");
-    printf("8. Next Page\n"); 
-    printf("9. Go Back\n");  
-*/
-/*      taskNumber > 7 page 2
-    printf("1. Cook Dinner2           @Personal    #9/17/25\n");
-    printf("2. Submit Podcast        @School      #9/18/25\n");
-    printf("3. Review for MMW        @School      #9/19/25\n");
-    printf("4. Submit Podcast        @School      #9/18/25\n");
-    printf("5. Review for MMW        @School      #9/19/25\n");
-    printf("6. Submit Podcast        @School      #9/18/25\n");
-    printf("7. Review for MMW        @School      #9/19/25\n");
-    printf("8. Previous Page\n"); 
-    printf("9. Next Page\n"); 
-    printf("0. Go Back\n");  
-*/
+    printf("\n\n");
+    fclose(file);   
+    return taskList; 
+}
 
     //have an access to reading the tasks.txt to and print an overview to the console.
     //take in user input to select a certain task, to go to next page, the previous page, as well as the menu.
+
+
+char *viewTaskChoice(int taskCount){
+    if(taskCount == 1)
+    {printf("B = Back, %d = Task Detail\n", taskCount);}
+    else if(taskCount > 1)
+    {printf("B = Back, 1-%d = Task Detail.\n", taskCount);}
+    
+    printf("What do you want to do?: ");
+    char *option = malloc(16);
+    if(!option) return NULL;
+
+
+
+    clearBuffer();
+    if(scanf("%s", option) != 1){
+        free(option);
+        return NULL;
+    }
+
+     if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
+        return "b";
+    }
+
+    return option;
 }
+
+
 
 
 void displayTask(char *filename){
     printf("displayTask");
     //After selecting a specific task, display all it's information
     //Add a next and previous (if available), return, submit, and remove button.
-
 }
 
 void addTask(char *filename){
     printf("Add\n");
-    
+    /* 
+    NAME:
+    DES:
+
+ */
+
+
     //have an access to tasks.txt, and append user input 
     //text format not yet to be disclosed.
 }
 
+/* void manageTasks(char *filename){
+    printf("Manage\n");
+    //also have an read access to tasks.txt have an overview
+    //complex functionality of buttons such as select many tasks at once that can either be removed or submitted.
+    //after tasks are removed or completed, they will be moved to records.txt
+} */
 
 void history(char *filename){
     printf("History\n");
