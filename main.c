@@ -11,7 +11,7 @@
 int main(){
 char continue_running = 'y';
 while(continue_running == 'y'){
-    clear();
+    // clear();
     landingPage();
 
     int choice;
