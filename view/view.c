@@ -9,6 +9,7 @@
 #define taskLimit 9
 
 void clear(){system("cls");}
+void newLine(){printf("\n");}
 
 void landingPage(){
     printf("Welcome to Smart Tasker.\n");
@@ -26,10 +27,10 @@ void printTask(struct Task task){
     printf("%s   ", task.name);
     printf("@%s ", task.tag);
     printf("|%s| ", task.deadline);
-    printf("%s\n", task.difficulty);
+    printf("%s", task.difficulty);
 }
 
-
+/* 
 struct Task *viewTasks(int taskCount, char *filename){
 
     printf("\n      Name                                Tag             Deadline     Difficulty(?/10)\n");
@@ -50,17 +51,17 @@ struct Task *viewTasks(int taskCount, char *filename){
         for(int i = 0; i < taskAttributes; i++){
             int tokenLen = strlen(token);
             switch(i){
-                case 0: /* id */
-                printf("%s. ", token); task.id = strdup(token); break;
-                case 1: /* name */
+                case 0: // id
+                printf("%d. ", n + 1); task.id = toStr(n + 1); break;
+                case 1: // name
                 nameFormat(token, tokenLen); task.name = strdup(token); break;
-                case 2: /* tag */
+                case 2: // tag 
                 tagFormat(token, tokenLen); task.tag = strdup(token); break;
-                case 3: /* deadline */
+                case 3: // deadline
                 deadlineFormat(token); task.deadline = strdup(token); break;
-                case 4: /* description */
+                case 4: // description
                 task.description = strdup(token); break;
-                case 5: /* difficulty */
+                case 5: // difficulty
                 difficultyFormat(token); task.difficulty= strdup(token); break;
             }
             token = strtok(NULL, "|");
@@ -71,8 +72,13 @@ struct Task *viewTasks(int taskCount, char *filename){
     printf("\n\n");
     fclose(file);   
     return taskList; 
-}
+} */
 
+void viewTasks(struct Task *tasks, int taskCount){
+    for(int i = 0; i < taskCount; i++){
+        printTask(tasks[i]);
+    }
+}
 
 char *viewTaskChoice(int taskCount){
     if(taskCount == 1)
@@ -177,9 +183,12 @@ void statistics(char *filename){
     //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
 }
 
+
+/* START OF SEARCH */
 char *search(){
     printf("Search a task by: \n");
     printf("B = Back\n1. Name\n2. Tag\n3. Deadline\n");
+    printf("What would you like to do?: ");
 
     char *option = malloc(16);
     if(!option){return NULL;}
@@ -190,9 +199,55 @@ char *search(){
         return NULL;
     }
 
-    if(scanBack(option)){
+    else if(scanBack(option)){
         return scanBack(option);
     }
 
     return option;
 }
+
+char *getSearchInput(){
+    char *option = malloc(16);
+    if(!option){return NULL;}
+
+
+    clearBuffer();
+    printf("Enter task name: ");
+
+    char optionBuffer[256];
+    
+    fgets(optionBuffer, sizeof(optionBuffer), stdin);
+    optionBuffer[strcspn(optionBuffer, "\n")] = 0;
+    /* if(scanf("%s", option) != 1){
+        free(option);
+        return NULL;
+    } */
+    if(scanBack(option)){
+        return scanBack(option);
+    }
+    
+    return strdup(optionBuffer);
+}
+
+
+/* struct Task *getSimilarNames(char *filename, int taskCount, char *name){
+    FILE *file = fopen(filename, "r");
+    char lineBuffer[256];
+    struct Task *tasks = malloc(taskCount * sizeof(struct Task));
+    struct Task task; // changes per iteration
+    int n = 0; // index for keeping track of tasks inside *tasks
+    
+    while(fgets(lineBuffer, sizeof(lineBuffer), file)){
+        char *token = strtok(lineBuffer, "|");
+        for(int i = 0; i < taskAttributes; i++){
+            switch(i){
+                case 0: task.id = toStr(n + 1); break;
+                case 1: task.name = strdup(token); break;
+                case 2: task.tag = strdup(token); break;
+                case 3: task.deadline = strdup(token); break;
+                case 4: task.description = strdup(token): break;
+                case 5: task.difficulty = strdup(token); break;
+            }
+        }
+    }
+} */

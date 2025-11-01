@@ -6,7 +6,7 @@ void clear();
 
 void landingPage();
 
-struct Task *viewTasks(int taskCount, char *filename);
+void viewTasks(struct Task *task, int taskCount);
 
 char *viewTaskChoice(int taskCount);
 
@@ -17,6 +17,7 @@ int addTask(char *filename); // returns 0 if no probs
 void statistics(char *filename);
 
 char *search(/* name, tag, or date */);
+char *getSearchInput();
 
 void printTask(struct Task task);
 
