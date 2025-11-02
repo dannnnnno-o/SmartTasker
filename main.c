@@ -9,6 +9,7 @@
 
 int main(){
 char continue_running = 'y';
+loop:
 while(continue_running == 'y'){
 // clear();
 landingPage();
@@ -24,35 +25,39 @@ struct Task selectedTask;
 
 
 int choice;
-scanf("%d", &choice);
+if(scanf("%d", &choice) != 1){
+    clear();
+    printf("Invalid input.\n");
+    clearBuffer();
+    goto loop;
+}
+
 switch(choice){
 
     case 1: // View Tasks //
+    viewTask:
         if(taskCount){
             tasks = getTasks("tasks.txt", taskCount);
             viewTasks(tasks, taskCount); // lists task
             
             taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
 
-            if(strcmp(taskChoice, "b") == 0){
-                free(taskChoice); 
-                free(tasks); 
-                break;
-            }
-
-            else if(isTaskId(taskChoice, taskCount)){
+            if(isTaskId(taskChoice, taskCount)){
                 selectedTask = selectTask(tasks, taskCount, taskChoice);
                 printTask(selectedTask);
                 printf("\n"); //adds newline after printing task details
             }
 
-            else{
-                printf("Please enter a valid input.\n");
+            else if(strcmp(taskChoice, "b") == 0){
+                free(taskChoice); 
+                free(tasks); 
+                break;
             }
 
-            free(taskChoice);
-            free(tasks);
-            break;
+            else{
+                printf("Please enter a valid input.\n");
+                goto viewTask;
+            }
         }
     printf("There are no tasks available.\n");
     break;
@@ -69,37 +74,34 @@ switch(choice){
             break;
 
     case 4: //clear();
+            search:
             taskCount = countTasks("tasks.txt");
             struct Task *allTasks = NULL;
 
-            if(!taskCount){
+            if(!taskCount){ // if no tasks on "tasks.txt"
                 clear();
                 printf("There are no tasks available.\n");
+                printf("Hint: You can add tasks by choosing 2 in the menu!\n\n");
                 break;
             }
 
-            allTasks = getTasks("tasks.txt", taskCount);
-            char *searchChoice = search();
-                if(strcmp(searchChoice, "b") == 0){
+            //else:
+            allTasks = getTasks("tasks.txt", taskCount); 
+            char *searchChoice = search(); // 1-3
+
+                if(strcmp(searchChoice, "b") == 0){ //if "b" or "B"
                     free(searchChoice);
                     break;
                 }
+            
             //to avoid redefinition error on each cases;
             char *searchInput = malloc(16);
-            int matchCount;
+            int matchCount; // declare counter for matched tasks
             
-            int key = searchKey(searchChoice); // B || 1~3;
-            // printf("key: %d\n", key);
-            taskCount = countTasks("tasks.txt");
+            int key = searchKey(searchChoice); // 1~3 : 0
+            struct Task *matches = malloc(taskCount * sizeof(struct Task)); //store matched tasks
 
-            struct Task *matches = malloc(taskCount * sizeof(struct Task));
 
-            // printf("taskCount: %d\n", taskCount);
-            if(!taskCount){
-                printf("There are no available tasks.\n");
-                free(searchChoice); 
-                break;
-            }
             switch(key){
                 case 1: // Name 
                     searchInput = getSearchInput("name"); //takes in user input for task name
@@ -107,25 +109,31 @@ switch(choice){
                     matchCount = 0; // number of matching tasks with searchInput
                     matches = getSimilarTasks(allTasks, taskCount, searchInput, "name", &matchCount);
 
-                    if(matches && matchCount > 0){
-                        viewTasks(matches, matchCount); // list out matched tasks
-                        taskChoice = viewTaskChoice(matchCount);
-                        
-                        if(strcmp(taskChoice, "b") == 0){
-                            free(searchInput);
-                            break;
-                        }
+                    if(!(matches && matchCount > 0)){
+                        clear();
+                        printf("No matches for <%s>.\n", searchInput);
+                        free(searchInput);
+                        goto search;
+                    }
 
-                        else if(isTaskId(taskChoice, matchCount)){
-                            selectedTask = selectTask(matches, matchCount, taskChoice);
-                            printTask(selectedTask);
-                        }
+                    // else
+                    clear(); //clears out terminal before listing matched tasks
+                    viewTasks(matches, matchCount); // list out matched tasks
 
-                        free(matches); // free matches; array of structs;
-                    } 
 
-                    else{printf("No matches for <%s>.\n", searchInput);} // matches && matchCount <= 0; 
-                    free(searchInput);
+                    taskChoice = viewTaskChoice(matchCount);
+                    if(strcmp(taskChoice, "b") == 0){ // if taskChoice == "b" "B"
+                        free(searchInput);
+                        clear();
+                        goto search;
+                        break;
+                    }
+
+                    else if(isTaskId(taskChoice, matchCount)){
+                        selectedTask = selectTask(matches, matchCount, taskChoice);
+                        printTask(selectedTask);
+                    }
+
                     break;
                 case 2: // Tag 
                     searchInput = getSearchInput("tag");
@@ -133,28 +141,35 @@ switch(choice){
                     matchCount = 0;
                     matches = getSimilarTasks(allTasks, taskCount, searchInput, "tag", &matchCount);
 
-                    if(matches && matchCount > 0){
-                        viewTasks(matches, matchCount);
-                        taskChoice = viewTaskChoice(matchCount);
+                    if(!(matches && matchCount > 0)){
+                        clear();
+                        printf("No matches for <%s>.\n", searchInput);
+                        free(searchInput);
+                        goto search;
+                    }
 
-                        if(strcmp(taskChoice, "b") == 0){
-                            free(searchInput);
-                            break;
-                        }
+                    //else
+                    clear(); //clears out terminal before listing matched tasks
+                    viewTasks(matches, matchCount);
+                    taskChoice = viewTaskChoice(matchCount);
 
-                        else if(isTaskId(taskChoice, matchCount)){
-                            selectedTask = selectTask(matches, matchCount, taskChoice);
-                            printTask(selectedTask);
-                        }
-
-
-                        free(matches);
+                    if(strcmp(taskChoice, "b") == 0){ // if taskChoice == "b" "B"
+                        free(searchInput);
+                        clear();
+                        goto search;
                         break;
                     }
 
-                    else{printf("No matches for <%s>.\n", searchInput);}
+                    else if(isTaskId(taskChoice, matchCount)){
+                        selectedTask = selectTask(matches, matchCount, taskChoice);
+                        printTask(selectedTask);
+                    }
+
+                    free(matches); // free matches; array of structs;
                     free(searchInput);
+
                     break;
+
 
                 case 3: // Deadline 
                     searchInput = getSearchInput("deadline");
@@ -162,38 +177,44 @@ switch(choice){
                     matchCount = 0;
                     matches = getSimilarTasks(allTasks, taskCount, searchInput, "deadline", &matchCount);
 
-                    if(matches && matchCount > 0){
-                        viewTasks(matches, matchCount); // list out matched tasks
-                        taskChoice = viewTaskChoice(matchCount);
-                        
-                        if(strcmp(taskChoice, "b") == 0){
-                            free(searchInput);
-                            break;
-                        }
+                    if(!(matches && matchCount > 0)){
+                        clear();
+                        printf("No matches for <%s>.\n", searchInput);
+                        free(searchInput);
+                        goto search;
+                    }
 
-                        else if(isTaskId(taskChoice, matchCount)){
-                            selectedTask = selectTask(matches, matchCount, taskChoice);
-                            printTask(selectedTask);
-                        }
+                    //else
+                    clear(); //clears out terminal before listing matched tasks
+                    viewTasks(matches, matchCount);
+                    taskChoice = viewTaskChoice(matchCount);
 
-                        free(matches); // free matches; array of structs;
-                    } 
-                    else{printf("No matches for <%s>.\n", searchInput);}
+                    if(strcmp(taskChoice, "b") == 0){ // if taskChoice == "b" "B"
+                        free(searchInput);
+                        clear();
+                        goto search;
+                        break;
+                    }
+
+                    else if(isTaskId(taskChoice, matchCount)){
+                        selectedTask = selectTask(matches, matchCount, taskChoice);
+                        printTask(selectedTask);
+                    }
+
+                    free(matches); // free matches; array of structs;
                     free(searchInput);
-                    break;
-
-                break; 
-            }
+                    
             break;
-
+                }
+                
+        break;
     case 5: clear();
             printf("Thank you for using Smart Tasker.\n");
             continue_running = 'n';
             break;
 
-    default: break;
+    default: clear(); printf("Invalid input.\n"); break;
     }
-
 }
 
 return 0;

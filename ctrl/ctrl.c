@@ -99,6 +99,7 @@ struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, cha
     else if (strcmp(mode, "tag") == 0) {
         for (int i = 0; i < taskCount; ++i) {
             if (tasks[i].tag && strcmp(tasks[i].tag, input) == 0) {
+                tasks[i].id = toStr(n + 1);
                 tasksBuffer[n++] = tasks[i];
             }
         }
@@ -107,6 +108,7 @@ struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, cha
     else if (strcmp(mode, "deadline") == 0) {
         for (int i = 0; i < taskCount; ++i) {
             if (tasks[i].deadline && strcmp(tasks[i].deadline, input) == 0) {
+                tasks[i].id = toStr(n + 1);
                 tasksBuffer[n++] = tasks[i];
             }
         }
@@ -196,11 +198,11 @@ int countTasks(char *filename){
 
 int isTaskId(char *taskId, int taskCount){
     if(isValidNumber(taskId)){
-        if(atoi(taskId) < 0 || atoi(taskId) > taskCount ){
-            return 0; // false = not a valid Task ID
+        if(!(atoi(taskId) < 0) || !(atoi(taskId) > taskCount)){
+            return 1; // returns true
         }
     }
-    return 1;
+    return 0;
 }
 
 struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
@@ -221,7 +223,7 @@ struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
 
 char *scanBack(char *option){
     if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
-        return strcpy(option, "b");
+        return strdup("b");
     }
     return NULL;
 }

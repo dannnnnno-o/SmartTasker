@@ -360,12 +360,11 @@ char *viewTaskChoice(int taskCount){
     char *option = malloc(16);
     if(!option){return NULL;}
 
-    clearBuffer();
     if(scanf("%s", option) != 1){
         free(option);
         return NULL;
     }
-
+    clearBuffer();
     if(scanBack(option)){
         return scanBack(option);
     }
@@ -444,28 +443,26 @@ char *search(){
         free(option);
         return NULL;
     }
-
-    else if(scanBack(option)){
+    clearBuffer();
+    if(scanBack(option)){
         return scanBack(option);
     }
+
+
 
     return option;
 }
 
 char *getSearchInput(char *mode){
-    char *option = malloc(16);
-    if(!option){return NULL;}
-    clearBuffer();
-
     printf("Enter task %s: ", mode);
-
     char optionBuffer[256];
-    
     fgets(optionBuffer, sizeof(optionBuffer), stdin);
     optionBuffer[strcspn(optionBuffer, "\n")] = 0;
  
-    if(scanBack(option)){
-        return scanBack(option);
+
+    if(scanBack(optionBuffer)){
+        return strdup("b");
     }
+
     return strdup(optionBuffer);
 }
