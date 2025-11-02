@@ -24,60 +24,17 @@ void landingPage(){
 
 void printTask(struct Task task){
     printf("%s. ", task.id);
-    printf("%s   ", task.name);
-    printf("@%s ", task.tag);
-    printf("|%s| ", task.deadline);
-    printf("%s", task.difficulty);
+    nameFormat(task.name, strlen(task.name));
+    tagFormat(task.tag, strlen(task.tag));
+    deadlineFormat(task.deadline);
+    difficultyFormat(task.difficulty);
 }
-
-/* 
-struct Task *viewTasks(int taskCount, char *filename){
-
-    printf("\n      Name                                Tag             Deadline     Difficulty(?/10)\n");
-    printf("-----------------------------------------------------------------------------------------------\n");
-    if(no_file(filename)){
-        make_file(filename);
-    }
-    FILE *file;
-    file = fopen(filename, "r");
-    char lineBuffer[255];
-
-    struct Task *taskList = malloc(taskCount * sizeof(struct Task)); // define task array
-
-    struct Task task; // task attributes changes per iteration
-    int n = 0; //index for keeping track
-    while(fgets(lineBuffer, sizeof(lineBuffer), file)){
-        char *token = strtok(lineBuffer, "|");
-        for(int i = 0; i < taskAttributes; i++){
-            int tokenLen = strlen(token);
-            switch(i){
-                case 0: // id
-                printf("%d. ", n + 1); task.id = toStr(n + 1); break;
-                case 1: // name
-                nameFormat(token, tokenLen); task.name = strdup(token); break;
-                case 2: // tag 
-                tagFormat(token, tokenLen); task.tag = strdup(token); break;
-                case 3: // deadline
-                deadlineFormat(token); task.deadline = strdup(token); break;
-                case 4: // description
-                task.description = strdup(token); break;
-                case 5: // difficulty
-                difficultyFormat(token); task.difficulty= strdup(token); break;
-            }
-            token = strtok(NULL, "|");
-        }
-        taskList[n] = task;
-        n++;
-    }
-    printf("\n\n");
-    fclose(file);   
-    return taskList; 
-} */
 
 void viewTasks(struct Task *tasks, int taskCount){
     for(int i = 0; i < taskCount; i++){
         printTask(tasks[i]);
     }
+    printf("\n\n");
 }
 
 char *viewTaskChoice(int taskCount){
@@ -99,10 +56,6 @@ char *viewTaskChoice(int taskCount){
     if(scanBack(option)){
         return scanBack(option);
     }
-    /*  if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
-        strcpy(option, "b");
-        return option;
-    } */
 
     return option;
 }
@@ -209,45 +162,17 @@ char *search(){
 char *getSearchInput(){
     char *option = malloc(16);
     if(!option){return NULL;}
-
-
     clearBuffer();
+
     printf("Enter task name: ");
 
     char optionBuffer[256];
     
     fgets(optionBuffer, sizeof(optionBuffer), stdin);
     optionBuffer[strcspn(optionBuffer, "\n")] = 0;
-    /* if(scanf("%s", option) != 1){
-        free(option);
-        return NULL;
-    } */
+ 
     if(scanBack(option)){
         return scanBack(option);
     }
-    
     return strdup(optionBuffer);
 }
-
-
-/* struct Task *getSimilarNames(char *filename, int taskCount, char *name){
-    FILE *file = fopen(filename, "r");
-    char lineBuffer[256];
-    struct Task *tasks = malloc(taskCount * sizeof(struct Task));
-    struct Task task; // changes per iteration
-    int n = 0; // index for keeping track of tasks inside *tasks
-    
-    while(fgets(lineBuffer, sizeof(lineBuffer), file)){
-        char *token = strtok(lineBuffer, "|");
-        for(int i = 0; i < taskAttributes; i++){
-            switch(i){
-                case 0: task.id = toStr(n + 1); break;
-                case 1: task.name = strdup(token); break;
-                case 2: task.tag = strdup(token); break;
-                case 3: task.deadline = strdup(token); break;
-                case 4: task.description = strdup(token): break;
-                case 5: task.difficulty = strdup(token); break;
-            }
-        }
-    }
-} */

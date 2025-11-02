@@ -86,6 +86,7 @@ struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, cha
     if(strcmp(mode, "name") == 0){
         for(int i = 0; i < taskCount; i++){
             if(strcmp(tasks[i].name, input) == 0){
+                tasks[i].id = toStr(n + 1);
                 tasksBuffer[n] = tasks[i];
                 n++; 
             }
@@ -121,7 +122,7 @@ struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, cha
     struct Task *shrink = realloc(tasksBuffer, n * sizeof(*shrink));
     if(shrink){tasksBuffer = shrink;}
 
-    *outMatchCount = n;
+    *outMatchCount = n; // directly updates the variable using the memory
 
     return tasksBuffer;
 }

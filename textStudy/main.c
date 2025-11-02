@@ -75,7 +75,7 @@ int main(){
     printf("|    Prepare three course meal       |\n");
     printf("|    for the family by 8pm           |\n");
     printf("|                                    |\n");
-    printf("|  *****                      9/27/25|\n");
+    printf("|  8/10                       9/27/25|\n");
     printf("|____________________________________|\n");
     /*
  ____________________________________ 
