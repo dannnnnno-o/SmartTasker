@@ -359,14 +359,15 @@ char *viewTaskChoice(int taskCount){
     printf("What do you want to do?: ");
     char *option = malloc(16);
     if(!option){return NULL;}
-
     if(scanf("%s", option) != 1){
         free(option);
+
         return NULL;
     }
     clearBuffer();
     if(scanBack(option)){
         return scanBack(option);
+
     }
 
     return option;
@@ -379,10 +380,82 @@ void displayTask(char *filename){
 }
 
 int addTask(char *filename){
+    clearBuffer(); 
 
-    return 0;
+    printf("Add Task\n");
+
+    if(no_file(filename)){
+        make_file(filename);
+    }
+
+    FILE *file = fopen(filename, "a");
+
+    struct Task task = {0};
+    char strBuffer[256];
+
+    task.id = "#";
+    
+    printf("Input task name: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.name = strdup(strBuffer);
+
+    printf("Input task tag: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.tag = strdup(strBuffer);  
+
+    printf("Input task deadline: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.deadline = strdup(strBuffer);   
+
+    printf("Input task description: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.description = strdup(strBuffer); 
+
+    printf("Input task difficulty: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.difficulty = strdup(strBuffer); 
+
+    char confirmBuffer[256];
+    while(1){
+    printf("Are you sure you want to add this task? (y/n): ");
+    if(fgets(confirmBuffer, sizeof(confirmBuffer), stdin) == NULL){
+        printf("No input received. Cancelling.\n");
+        fclose(file);
+        return 0;
+    }
+
+    confirmBuffer[strcspn(confirmBuffer, "\r\n")] = '\0';
+
+    if(confirmBuffer[0] == 'y' || confirmBuffer[0] == 'Y'){
+        fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline, task.description, task.difficulty);
+        fclose(file);
+        clear();
+        printf("Task was added successfully.\n\n");
+        break;
+    }
+    else if(confirmBuffer[0] == 'n' || confirmBuffer[0] == 'N'){
+        clear();
+        printf("Task was not added.\n\n");
+        fclose(file);
+        break;
+    }
+    else{
+        clear();
+        printf("Add Task\n");
+        printf("Input task name: %s\n", task.name);
+        printf("Input task tag: %s\n", task.tag);
+        printf("Input task deadline: %s\n", task.deadline);
+        printf("Input task description: %s\n", task.description);
+        printf("Input task difficulty: %s\n", task.difficulty);
+    }
+    }
+return 0;
 }
-
 void statistics(char *filename){
     printf("Statistics\n");
     //have an access to records.txt and display the overview of removed/submitted tasks
