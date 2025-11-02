@@ -379,15 +379,17 @@ void printTask(struct Task task){
 void viewTasks(struct Task *tasks, int taskCount){
     system("chcp 65001");
     clear();
-    printf("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                                       🧠  SMART TASKER - TASK LIST                                  ║\n");
-    printf("╠═════════════════════════════════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║  No. │              Name                    │      Tag       │  Deadline  │  Difficulty ( /10 )     ║\n");
-    printf("╠══════╪══════════════════════════════════════╪════════════════╪════════════╪═════════════════════════╣\n");
+    printf("╔═════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                       🧠  SMART TASKER - TASK LIST                                      ║\n");
+    printf("╠═════════════════════════════════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║  No. │              Name                    │      Tag       │    Deadline    │  Difficulty ( /10 )     ║\n");
+    printf("╠══════╪══════════════════════════════════════╪════════════════╪════════════════╪═════════════════════════╣\n");
     for(int i = 0; i < taskCount; i++){
         for(int j = 0; j < taskAttributes; j++){
             switch(j){
-                case 0: tasks[i].id = toStr(i + 1); printf("║   %s.   │   ", tasks[i].id); break;
+                case 0: tasks[i].id = toStr(i + 1); 
+                        if (i <= 8  ){printf("║  %s.  │   ", tasks[i].id);}
+                        else{printf("║  %s. │   ", tasks[i].id);}break;
                 case 1: nameFormat(tasks[i].name, strlen(tasks[i].name)); break;
                 case 2: tagFormat(tasks[i].tag, strlen(tasks[i].tag)); break;
                 case 3: deadlineFormat(tasks[i].deadline); break;
@@ -396,6 +398,8 @@ void viewTasks(struct Task *tasks, int taskCount){
             }
         }
     }
+    printf("\n");
+    printf("╚═════════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     printf("\n\n");
 }
 
@@ -447,29 +451,29 @@ int addTask(char *filename){
     
     clearBuffer();
 
-    //name
-    printf("║  Input Task Name:          ");
+    //name 
+    printf("║  Input Task Name:              ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.name = strdup(strBuffer);
 
     //tag
-    printf("║  Input Task Tag:           ");
+    printf("║  Input Task Tag:               ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.tag = strdup(strBuffer);  
 
-    printf("Input task deadline: ");
+    printf("║  Input Task deadline:          ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.deadline = strdup(strBuffer);   
 
-    printf("Input task description: ");
+    printf("║  Input task description:       ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.description = strdup(strBuffer); 
 
-    printf("Input task difficulty: ");
+    printf("║  Input task difficulty:        ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.difficulty = strdup(strBuffer);   
@@ -485,6 +489,20 @@ int addTask(char *filename){
     DEADLINE:
     DESCRIPTION:
     DIFFICULTY:
+ */
+
+ /* 
+ ╔══════════════════════════════════════════════════════════════════════════╗
+║                              ✏️  ADD TASK                                ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║  Input Task Name:          dasfdafadsfadf                                ║
+║  Input Task Tag:           sdfasfda                                      ║
+║  Input Task Deadline:      sadfasdfa                                     ║
+║  Input Task Description:   fdasdfas                                      ║
+║  Input Task Difficulty:    dsfasfas                                      ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║                  ✅  Task added successfully!                            ║
+╚══════════════════════════════════════════════════════════════════════════╝
  */
 }
 

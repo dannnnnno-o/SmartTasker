@@ -155,11 +155,11 @@ void nameFormat(char *text, int len){
 void tagFormat(char *tag, int len){
     printf("\t\t\t");
     if(len == limit){
-        printf("@%s", tag);
+        printf(" @%s", tag);
     }
 
     else if(len < limit){
-        printf("@%s", tag);
+        printf(" @%s", tag);
         for(int i = len; i < limit; i++){
             printf(" ");
         }

@@ -12,6 +12,7 @@ char continue_running = 'y';
 loop:
 while(continue_running == 'y'){
 // clear();
+printBanner();
 landingPage();
 
 if(no_file("tasks.txt"))
@@ -64,7 +65,9 @@ switch(choice){
     
     case 2: clear(); 
         if(addTask("tasks.txt") == 0){
-        printf("Task added successfully.\n");
+        printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+        printf("║                  ✅  Task added successfully!                            ║\n");
+        printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
         break;
     }
         printf("Failed to add task.\n");
@@ -209,7 +212,7 @@ switch(choice){
                 
         break;
     case 5: clear();
-            printf("Thank you for using Smart Tasker.\n");
+            printexitBanner();
             continue_running = 'n';
             break;
 
