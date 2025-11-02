@@ -379,60 +379,8 @@ void displayTask(char *filename){
 }
 
 int addTask(char *filename){
-    printf("Add Task\n");
-
-    if(no_file(filename)){
-        make_file(filename);
-    }
-
-    FILE *file = fopen(filename, "a");
-
-    struct Task task = {0};
-    char strBuffer[256];
-
-    task.id = toStr(countTasks(filename) + 1);
-    
-    clearBuffer();
-
-    //name
-    printf("Input task name: ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.name = strdup(strBuffer);
-
-    //tag
-    printf("Input task tag: ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.tag = strdup(strBuffer);  
-
-    printf("Input task deadline: ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.deadline = strdup(strBuffer);   
-
-    printf("Input task description: ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.description = strdup(strBuffer); 
-
-    printf("Input task difficulty: ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.difficulty = strdup(strBuffer);   
-
-    fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline,task.description, task.difficulty);
-
-    fclose(file);
 
     return 0;
-/* 
-    NAME:
-    TAG:
-    DEADLINE:
-    DESCRIPTION:
-    DIFFICULTY:
- */
 }
 
 void statistics(char *filename){

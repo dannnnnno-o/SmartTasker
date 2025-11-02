@@ -62,12 +62,8 @@ switch(choice){
     printf("There are no tasks available.\n");
     break;
     
-    case 2: clear(); 
-        if(addTask("tasks.txt") == 0){
-        printf("Task added successfully.\n");
-        break;
-    }
-        printf("Failed to add task.\n");
+    case 2:
+
         break;
 
     case 3: statistics("records.txt");
