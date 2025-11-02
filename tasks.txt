@@ -12,3 +12,5 @@
 #|Review for MMW|School|09/19/25|review for final exam|9
 #|finish comprog system|school|11/03/25|finish comprog system source code by monday, preferably much earlier to have time preparing the other members for defense|9.5
 #|sleep|personal|11/01/25|have enough sleep|9.5
+#|wow|school|11/11/11|wowers|2
+#|nikki|personal|2/2/22|personal|10
