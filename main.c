@@ -62,14 +62,16 @@ switch(choice){
     printf("There are no tasks available.\n");
     break;
     
-    case 2: clear(); 
+    case 2: 
+    // printf("isDate: %d\n", isDate("11/01/25"));
+    clear(); 
         if(addTask("tasks.txt") != 0){
         printf("Something went wrong please try again.\n");
         break;
     }
-        break;
+        break; 
 
-    case 3: statistics("records.txt");
+    case 3: statistics("statistics.txt");
             break;
 
     case 4: //clear();

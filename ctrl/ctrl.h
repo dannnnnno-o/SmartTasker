@@ -20,7 +20,7 @@ char *scanBack(char *option);
 int searchKey(char* option);
 struct Task *getTasks(char *filename, int taskCount);
 struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, char* mode, int *outMatchCount);
-
+int isDate(char *input);
 
 /* END OF 1. View Tasks */
 
