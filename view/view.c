@@ -397,21 +397,47 @@ int addTask(char *filename){
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.tag = strdup(strBuffer);  
 
-    printf("Input task deadline: ");
+    printf("Input task deadline (MM/DD/YY): ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.deadline = strdup(strBuffer);   
+    task.deadline = strdup(strBuffer);
 
     printf("Input task description: ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.description = strdup(strBuffer); 
 
-    printf("Input task difficulty: ");
+    while(1){
+    printf("Input task difficulty (1 - 10): ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.difficulty = strdup(strBuffer); 
-
+    if(!isValidNumber(strBuffer)){
+        clear();
+        printf("Add Task\n");
+        printf("HINT: Input a valid difficulty (1 - 10)\n\n");
+        printf("Input task name: %s\n", task.name);
+        printf("Input task tag: %s\n", task.tag);
+        printf("Input task deadline: %s\n", task.deadline);
+        printf("Input task description: %s\n", task.description);
+        }
+    else if(isValidNumber(strBuffer)){
+        float x = atof(strBuffer);
+        if(x < 0 || x > 10){ // out of range
+        printf("Add Task\n");   
+        printf("HINT: Input a valid difficulty (1 - 10)\n\n");
+        printf("Input task name: %s\n", task.name);
+        printf("Input task tag: %s\n", task.tag);
+        printf("Input task deadline: %s\n", task.deadline);
+        printf("Input task description: %s\n", task.description);
+        }
+        else{
+        task.difficulty = strdup(strBuffer);
+        break; 
+        }
+    }
+    }
+    
+    
     char confirmBuffer[256];
     while(1){
     printf("Are you sure you want to add this task? (y/n): ");
