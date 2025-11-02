@@ -9,6 +9,7 @@
 #define taskLimit 9
 
 void clear(){system("cls");}
+void newLine(){printf("\n");}
 
 void landingPage(){
     printf("Welcome to Smart Tasker.\n");
@@ -23,60 +24,27 @@ void landingPage(){
 
 void printTask(struct Task task){
     printf("%s. ", task.id);
-    printf("%s   ", task.name);
-    printf("@%s ", task.tag);
-    printf("|%s| ", task.deadline);
-    printf("%s\n", task.difficulty);
+    nameFormat(task.name, strlen(task.name));
+    tagFormat(task.tag, strlen(task.tag));
+    deadlineFormat(task.deadline);
+    difficultyFormat(task.difficulty);
 }
 
-
-struct Task *viewTasks(int taskCount, char *filename){
-
-    printf("\n      Name                                Tag             Deadline     Difficulty(?/10)\n");
-    printf("-----------------------------------------------------------------------------------------------\n");
-    if(no_file(filename)){
-        make_file(filename);
-    }
-    FILE *file;
-    file = fopen(filename, "r");
-    char lineBuffer[255];
-
-    struct Task *taskList = malloc(taskCount * sizeof(struct Task)); // define task array
-    // int listLength = sizeof(taskList)/sizeof(taskList[0]); // size of array
-
-    struct Task task; // task attributes changes per iteration
-    int n = 0; //index for keeping track
-    while(fgets(lineBuffer, sizeof(lineBuffer), file)){
-        char *token = strtok(lineBuffer, "|");
-        for(int i = 0; i < taskAttributes; i++){
-            int tokenLen = strlen(token);
-            switch(i){
-                case 0: /* id */
-                printf("%s. ", token); task.id = strdup(token); break;
-                case 1: /* name */
-                nameFormat(token, tokenLen); task.name = strdup(token); break;
-                case 2: /* tag */
-                tagFormat(token, tokenLen); task.tag = strdup(token); break;
-                case 3: /* deadline */
-                deadlineFormat(token); task.deadline = strdup(token); break;
-                case 4: /* description */
-                task.description = strdup(token); break;
-                case 5: /* difficulty */
-                difficultyFormat(token); task.difficulty= strdup(token); break;
+void viewTasks(struct Task *tasks, int taskCount){
+    for(int i = 0; i < taskCount; i++){
+        for(int j = 0; j < taskAttributes; j++){
+            switch(j){
+                case 0: tasks[i].id = toStr(i + 1); printf("%s. ", tasks[i].id); break;
+                case 1: nameFormat(tasks[i].name, strlen(tasks[i].name)); break;
+                case 2: tagFormat(tasks[i].tag, strlen(tasks[i].tag)); break;
+                case 3: deadlineFormat(tasks[i].deadline); break;
+                case 4: break;
+                case 5: difficultyFormat(tasks[i].difficulty); break;
             }
-            token = strtok(NULL, "|");
         }
-        taskList[n] = task;
-        n++;
     }
     printf("\n\n");
-    fclose(file);   
-    return taskList; 
 }
-
-    //have an access to reading the tasks.txt to and print an overview to the console.
-    //take in user input to select a certain task, to go to next page, the previous page, as well as the menu.
-
 
 char *viewTaskChoice(int taskCount){
     if(taskCount == 1)
@@ -97,10 +65,6 @@ char *viewTaskChoice(int taskCount){
     if(scanBack(option)){
         return scanBack(option);
     }
-    /*  if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
-        strcpy(option, "b");
-        return option;
-    } */
 
     return option;
 }
@@ -181,9 +145,12 @@ void statistics(char *filename){
     //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
 }
 
+
+/* START OF SEARCH */
 char *search(){
-    printf("Search a tag by: \n");
-    printf("1. Name    2. Tag    3. Deadline\n");
+    printf("Search a task by: \n");
+    printf("B = Back\n1. Name\n2. Tag\n3. Deadline\n");
+    printf("What would you like to do?: ");
 
     char *option = malloc(16);
     if(!option){return NULL;}
@@ -194,9 +161,27 @@ char *search(){
         return NULL;
     }
 
-    if(scanBack(option)){
+    else if(scanBack(option)){
         return scanBack(option);
     }
 
     return option;
+}
+
+char *getSearchInput(char *mode){
+    char *option = malloc(16);
+    if(!option){return NULL;}
+    clearBuffer();
+
+    printf("Enter task %s: ", mode);
+
+    char optionBuffer[256];
+    
+    fgets(optionBuffer, sizeof(optionBuffer), stdin);
+    optionBuffer[strcspn(optionBuffer, "\n")] = 0;
+ 
+    if(scanBack(option)){
+        return scanBack(option);
+    }
+    return strdup(optionBuffer);
 }
