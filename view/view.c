@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "view.h"
 #include "../ctrl/ctrl.h"
 #include "../task.h"
@@ -373,7 +374,22 @@ char *viewTaskChoice(int taskCount){
 
 int addTask(char *filename){
     clearBuffer(); 
+/* 
+    time_t now = time(NULL);
 
+    char *formatNow = ctime(&now);
+    
+    struct tm *local_time = localtime(&now);
+
+    printf("tm_sec: %d\n", local_time->tm_sec);
+    printf("tm_min: %d\n", local_time->tm_min);
+    printf("tm_hour: %d\n", local_time->tm_hour);
+    printf("tm_mday: %d\n", local_time->tm_mday); // day of the month
+    printf("tm_mon: %d\n", local_time->tm_mon); // month, 0 = january -> ->
+    printf("tm_year: %d\n", local_time->tm_year); // the year since 1900
+    printf("tm_wday: %d\n", local_time->tm_wday); // no. of days since sunday
+    printf("tm_yday: %d\n", local_time->tm_yday); // day of the year
+ */
     printf("Add Task\n");
 
     if(no_file(filename)){
@@ -397,11 +413,27 @@ int addTask(char *filename){
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.tag = strdup(strBuffer);  
 
+    while(1){
     printf("Input task deadline (MM/DD/YY): ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.deadline = strdup(strBuffer);
 
+    if(!isDate(strBuffer)){
+        clear();
+        printf("Add Task\n");
+        printf("HINT: Input a valid deadline (MM/DD/YY)\n\n");
+        printf("Input task name: %s\n", task.name);
+        printf("Input task tag: %s\n", task.tag);
+    }
+
+    else if(isDate(strBuffer)){
+    task.deadline = strdup(strBuffer);
+    break;
+    }
+    else{
+        continue;
+    }
+}
     printf("Input task description: ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
@@ -422,7 +454,8 @@ int addTask(char *filename){
         }
     else if(isValidNumber(strBuffer)){
         float x = atof(strBuffer);
-        if(x < 0 || x > 10){ // out of range
+        if(x <= 0 || x > 10){ // out of range
+        clear();
         printf("Add Task\n");   
         printf("HINT: Input a valid difficulty (1 - 10)\n\n");
         printf("Input task name: %s\n", task.name);

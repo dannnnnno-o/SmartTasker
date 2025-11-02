@@ -39,7 +39,7 @@ switch(choice){
         if(taskCount){
             tasks = getTasks("tasks.txt", taskCount);
             viewTasks(tasks, taskCount); // lists task
-            
+            clearBuffer();
             taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
 
             if(isTaskId(taskChoice, taskCount)){
@@ -62,12 +62,14 @@ switch(choice){
     printf("There are no tasks available.\n");
     break;
     
-    case 2: clear(); 
+    case 2: 
+    // printf("isDate: %d\n", isDate("11/01/25"));
+    clear(); 
         if(addTask("tasks.txt") != 0){
         printf("Something went wrong please try again.\n");
         break;
     }
-        break;
+        break; 
 
     case 3: statistics("statistics.txt");
             break;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "ctrl.h"
 #include "../view/view.h"
 #include "../task.h"
@@ -47,6 +48,74 @@ int isValidNumber(char *str){
             return 0; // false = not a valid number
         }
     }
+    return 1;
+}
+
+int isDate(char *input){
+
+    if (!input || strlen(input) < 8) return 0;
+    if (input[2] != '/' || input[5] != '/') return 0;
+
+    char mm[3] = {input[0], input[1], '\0'}; 
+    char dd[3] = {input[3], input[4], '\0'}; 
+    char yy[3] = {input[6], input[7], '\0'}; 
+    char *date[3] = {mm, dd, yy};
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 2; j++){
+            if(isdigit(date[i][j])){
+                continue;
+            }
+            else{
+            return 0;
+            }
+        }
+    }
+    int newM = atoi(mm);
+    int newD = atoi(dd);
+    int newY = atoi(yy); // gets the all the year after 1900 so we add it, then subtract 2000 to get the last 2 digit of the year. 
+
+
+    if(newM <= 0 || newM > 12){
+        return 0; // month is out of range
+    }
+    int maxDays;
+
+//maxDays
+    if(newM == 1){
+    maxDays = 28;
+    }
+    
+    else if(newM == 4 || newM == 6 || newM == 9 || newM == 11){
+    maxDays = 30;
+    }
+
+    else{
+    maxDays = 31;
+    }
+
+    if(newD <= 0 || newD > maxDays){ // day out of range
+        return 0; 
+    }
+
+    time_t now = time(NULL);
+
+    struct tm *local_time = localtime(&now);
+    int local_year = local_time->tm_year + 1900 - 2000;
+    int local_month = local_time->tm_mon + 1;
+    int local_mday = local_time->tm_mday;
+
+    if(newY < local_year){
+        return 0;
+    }
+
+    else if(newY == local_year){
+    if(newM < local_month){
+        return 0;
+    }
+    else if(newM == local_month && newD < local_mday){
+        return 0;
+    }
+}
     return 1;
 }
 
