@@ -457,7 +457,22 @@ int addTask(char *filename){
     printf("║  Input Task Tag:           ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.tag = strdup(strBuffer);   
+    task.tag = strdup(strBuffer);  
+
+    printf("Input task deadline: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.deadline = strdup(strBuffer);   
+
+    printf("Input task description: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.description = strdup(strBuffer); 
+
+    printf("Input task difficulty: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.difficulty = strdup(strBuffer);   
 
     fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline,task.description, task.difficulty);
 
