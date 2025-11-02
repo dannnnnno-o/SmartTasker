@@ -102,7 +102,7 @@ switch(choice){
             }
             switch(key){
                 case 1: // Name 
-                    searchInput = getSearchInput(); //takes in user input for task name
+                    searchInput = getSearchInput("name"); //takes in user input for task name
                     if(!searchInput){printf("Please enter a valid input.\n");break;}
                     matchCount = 0; // number of matching tasks with searchInput
                     matches = getSimilarTasks(allTasks, taskCount, searchInput, "name", &matchCount);
@@ -128,29 +128,56 @@ switch(choice){
                     free(searchInput);
                     break;
                 case 2: // Tag 
-                    searchInput = getSearchInput();
+                    searchInput = getSearchInput("tag");
                     if(!searchInput){printf("Please enter a valid input.\n");}
                     matchCount = 0;
                     matches = getSimilarTasks(allTasks, taskCount, searchInput, "tag", &matchCount);
 
                     if(matches && matchCount > 0){
                         viewTasks(matches, matchCount);
+                        taskChoice = viewTaskChoice(matchCount);
+
+                        if(strcmp(taskChoice, "b") == 0){
+                            free(searchInput);
+                            break;
+                        }
+
+                        else if(isTaskId(taskChoice, matchCount)){
+                            selectedTask = selectTask(matches, matchCount, taskChoice);
+                            printTask(selectedTask);
+                        }
+
+
                         free(matches);
+                        break;
                     }
+
                     else{printf("No matches for <%s>.\n", searchInput);}
                     free(searchInput);
                     break;
 
                 case 3: // Deadline 
-                                            searchInput = getSearchInput();
+                    searchInput = getSearchInput("deadline");
                     if(!searchInput){printf("Please enter a valid input.\n");}
                     matchCount = 0;
                     matches = getSimilarTasks(allTasks, taskCount, searchInput, "deadline", &matchCount);
 
                     if(matches && matchCount > 0){
-                        viewTasks(matches, matchCount);
-                        free(matches);
-                    }
+                        viewTasks(matches, matchCount); // list out matched tasks
+                        taskChoice = viewTaskChoice(matchCount);
+                        
+                        if(strcmp(taskChoice, "b") == 0){
+                            free(searchInput);
+                            break;
+                        }
+
+                        else if(isTaskId(taskChoice, matchCount)){
+                            selectedTask = selectTask(matches, matchCount, taskChoice);
+                            printTask(selectedTask);
+                        }
+
+                        free(matches); // free matches; array of structs;
+                    } 
                     else{printf("No matches for <%s>.\n", searchInput);}
                     free(searchInput);
                     break;

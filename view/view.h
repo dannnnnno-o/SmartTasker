@@ -17,7 +17,7 @@ int addTask(char *filename); // returns 0 if no probs
 void statistics(char *filename);
 
 char *search(/* name, tag, or date */);
-char *getSearchInput();
+char *getSearchInput(char *mode);
 
 void printTask(struct Task task);
 

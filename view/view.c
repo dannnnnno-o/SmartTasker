@@ -32,7 +32,16 @@ void printTask(struct Task task){
 
 void viewTasks(struct Task *tasks, int taskCount){
     for(int i = 0; i < taskCount; i++){
-        printTask(tasks[i]);
+        for(int j = 0; j < taskAttributes; j++){
+            switch(j){
+                case 0: tasks[i].id = toStr(i + 1); printf("%s. ", tasks[i].id); break;
+                case 1: nameFormat(tasks[i].name, strlen(tasks[i].name)); break;
+                case 2: tagFormat(tasks[i].tag, strlen(tasks[i].tag)); break;
+                case 3: deadlineFormat(tasks[i].deadline); break;
+                case 4: break;
+                case 5: difficultyFormat(tasks[i].difficulty); break;
+            }
+        }
     }
     printf("\n\n");
 }
@@ -159,12 +168,12 @@ char *search(){
     return option;
 }
 
-char *getSearchInput(){
+char *getSearchInput(char *mode){
     char *option = malloc(16);
     if(!option){return NULL;}
     clearBuffer();
 
-    printf("Enter task name: ");
+    printf("Enter task %s: ", mode);
 
     char optionBuffer[256];
     
