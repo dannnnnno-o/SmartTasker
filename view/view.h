@@ -4,6 +4,10 @@
 
 void clear();
 
+void printBanner();
+
+void printexitBanner();
+
 void landingPage();
 
 struct Task *viewTasks(int taskCount, char *filename);
