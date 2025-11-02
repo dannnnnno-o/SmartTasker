@@ -1,80 +1,191 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "ctrl/ctrl.h"
-#include "view/view.h"
-#include "task.h"
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    #include "ctrl/ctrl.h"
+    #include "view/view.h"
+    #include "task.h"
 
 
 
-int main(){
-char continue_running = 'y';
-loop:
-while(continue_running == 'y'){
-// clear();
-landingPage();
+    int main(){
+    char continue_running = 'y';
+    loop:
+    while(continue_running == 'y'){
+    // clear();
+    landingPage();
 
-if(no_file("tasks.txt"))
-{make_file("tasks.txt");}
-
-
-int taskCount = countTasks("tasks.txt");
-struct Task *tasks = malloc(taskCount * sizeof(struct Task));
-char *taskChoice = malloc(16);
-struct Task selectedTask;
+    if(no_file("tasks.txt"))
+    {make_file("tasks.txt");}
 
 
-int choice;
-if(scanf("%d", &choice) != 1){
-    clear();
-    printf("Invalid input.\n");
-    clearBuffer();
-    goto loop;
-}
+    int taskCount = countTasks("tasks.txt");
+    struct Task *tasks = malloc(256 * sizeof(struct Task));
+    char *taskChoice = malloc(16);
+    struct Task selectedTask;
+    int key;
+    char *cardChoice = malloc(16);
 
-switch(choice){
 
-    case 1: // View Tasks //
-    viewTask:
-        if(taskCount){
-            tasks = getTasks("tasks.txt", taskCount);
-            viewTasks(tasks, taskCount); // lists task
-            clearBuffer();
-            taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
+    int choice;
+    if(scanf("%d", &choice) != 1){
+        clear();
+        printf("Invalid input.\n");
+        clearBuffer();
+        goto loop;
+    }
 
-            if(isTaskId(taskChoice, taskCount)){
-                selectedTask = selectTask(tasks, taskCount, taskChoice);
-                printTask(selectedTask);
-                printf("\n"); //adds newline after printing task details
+    switch(choice){
+
+        case 1: // View Tasks //
+        viewTask:
+            if(taskCount){
+                tasks = getTasks("tasks.txt", taskCount);
+                tasks = sortTasks(tasks, taskCount);
+                viewTasks(tasks, taskCount); // lists task
+                clearBuffer();
+                taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
+
+                if(isTaskId(taskChoice, taskCount)){
+                    selectedTask = selectTask(tasks, taskCount, taskChoice);
+                    printTask(selectedTask);
+                    printf("\n"); //adds newline after printing task details
+                    cardChoice = taskCardChoice();
+                
+                    if(strcmp(cardChoice, "b") == 0){
+                        clear();
+                        free(cardChoice);
+                        goto viewTask;
+                    }
+
+                    if (strcmp(cardChoice, "1") == 0) {
+                        updateTaskFiles(tasks, taskCount, selectedTask, "completed.txt");
+                        printf("Task marked as complete!\n");
+                    } else if (strcmp(cardChoice, "2") == 0) {
+                        updateTaskFiles(tasks, taskCount, selectedTask, "deleted.txt");
+                        printf("Task deleted.\n");
+                    }
+
+                }
+
+                else if(strcmp(taskChoice, "b") == 0){
+                    free(taskChoice); 
+                    free(tasks); 
+                    break;
+                }
+
+                else{
+                    printf("Please enter a valid input.\n");
+                    goto viewTask;
+                }
+            }
+        break;
+        
+        case 2: 
+        // printf("isDate: %d\n", isDate("11/01/25"));
+        clear(); 
+            if(addTask("tasks.txt") != 0){
+            printf("Something went wrong please try again.\n");
+            break;
+        }
+            break; 
+
+        case 3: 
+            statistics:
+            int pendingTaskCount = countTasks("tasks.txt");
+            int completedTaskCount = countTasks("completed.txt");
+            int overdueTaskCount = countTasks("overdue.txt");
+
+            char *statisticsChoice = getStatisticsChoice("statistics.txt");
+            printf("statisticsChoice: %s\n\n\n",statisticsChoice );
+
+            if(strcmp(statisticsChoice, "b") == 0){
+            clear();
+            free(statisticsChoice);
+            break;
             }
 
-            else if(strcmp(taskChoice, "b") == 0){
-                free(taskChoice); 
-                free(tasks); 
+            key = Key(statisticsChoice);
+
+            switch(key){
+            case 1: //completed 
+                if(!completedTaskCount){
+                    clear();
+                    printf("There are no completed tasks yet.\n\n");
+                    free(statisticsChoice);
+                    goto statistics;
+                }
+
+                tasks = getTasks("completed.txt", completedTaskCount);
+                clear();
+                viewTasks(tasks, completedTaskCount);
+
+                    taskChoice = viewTaskChoice(completedTaskCount);
+                    if(strcmp(taskChoice, "b") == 0){ // if taskChoice == "b" "B"
+                        clear();
+                        goto statistics;
+                        break;
+                    }
+
+                    else if(isTaskId(taskChoice, completedTaskCount)){
+                        selectedTask = selectTask(tasks, completedTaskCount, taskChoice);
+                        printTask(selectedTask);
+                    }
+                break;
+
+                case 2:
+                if(taskCount){
+                tasks = getTasks("tasks.txt", taskCount);
+                viewTasks(tasks, taskCount); // lists task
+                // clearBuffer();
+                taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
+
+                if(isTaskId(taskChoice, taskCount)){
+                    selectedTask = selectTask(tasks, taskCount, taskChoice);
+                    printTask(selectedTask);
+                    printf("\n"); //adds newline after printing task details
+                }
+
+                else if(strcmp(taskChoice, "b") == 0){
+                    free(taskChoice); 
+                    free(tasks); 
+                    break;
+                }
+
+                else{
+                    printf("Please enter a valid input.\n");
+                    goto statistics;
+                }
+            }
+        break;
+
+                case 3:
+                if(!overdueTaskCount){
+                    clear();
+                    printf("There are no overdue tasks yet.\n\n");
+                    free(statisticsChoice);
+                    goto statistics;
+                }
+
+                tasks = getTasks("overdue.txt", overdueTaskCount);
+                clear();
+                viewTasks(tasks, overdueTaskCount);
+
+                    taskChoice = viewTaskChoice(overdueTaskCount);
+                    if(strcmp(taskChoice, "b") == 0){ // if taskChoice == "b" "B"
+                        clear();
+                        goto statistics;
+                        break;
+                    }
+
+                    else if(isTaskId(taskChoice, overdueTaskCount)){
+                        selectedTask = selectTask(tasks, overdueTaskCount, taskChoice);
+                        printTask(selectedTask);
+                    }
                 break;
             }
-
-            else{
-                printf("Please enter a valid input.\n");
-                goto viewTask;
-            }
-        }
-    printf("There are no tasks available.\n");
-    break;
-    
-    case 2: 
-    // printf("isDate: %d\n", isDate("11/01/25"));
-    clear(); 
-        if(addTask("tasks.txt") != 0){
-        printf("Something went wrong please try again.\n");
-        break;
-    }
-        break; 
-
-    case 3: statistics("statistics.txt");
             break;
 
-    case 4: //clear();
+        case 4: //clear();
             search:
             taskCount = countTasks("tasks.txt");
             struct Task *allTasks = NULL;
@@ -99,7 +210,7 @@ switch(choice){
             char *searchInput = malloc(16);
             int matchCount; // declare counter for matched tasks
             
-            int key = searchKey(searchChoice); // 1~3 : 0
+            key = Key(searchChoice); // 1~3 : 0
             struct Task *matches = malloc(taskCount * sizeof(struct Task)); //store matched tasks
 
 
@@ -206,17 +317,17 @@ switch(choice){
                     free(searchInput);
                     
             break;
-                }
-                
-        break;
-    case 5: clear();
-            printf("Thank you for using Smart Tasker.\n");
-            continue_running = 'n';
+            }
+                    
             break;
+        case 5: clear();
+                printf("Thank you for using Smart Tasker.\n");
+                continue_running = 'n';
+                break;
 
-    default: clear(); printf("Invalid input.\n"); break;
+        default: clear(); printf("Invalid input.\n"); break;
+        }
     }
-}
 
-return 0;
-}
+    return 0;
+    }

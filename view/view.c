@@ -413,31 +413,13 @@ int addTask(char *filename){
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.tag = strdup(strBuffer);  
 
-    while(1){
-    printf("Input task deadline (MM/DD/YY): ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline,task.description, task.difficulty);
 
-    if(!isDate(strBuffer)){
-        clear();
-        printf("Add Task\n");
-        printf("HINT: Input a valid deadline (MM/DD/YY)\n\n");
-        printf("Input task name: %s\n", task.name);
-        printf("Input task tag: %s\n", task.tag);
-    }
+    fclose(file);
 
-    else if(isDate(strBuffer)){
-    task.deadline = strdup(strBuffer);
-    break;
-    }
-    else{
-        continue;
-    }
-}
-    printf("Input task description: ");
-    fgets(strBuffer, sizeof(strBuffer), stdin);
-    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
-    task.description = strdup(strBuffer); 
+    return 0;
+
+
 
     while(1){
     printf("Input task difficulty (1 - 10): ");
@@ -507,12 +489,22 @@ int addTask(char *filename){
     }
 return 0;
 }
-void statistics(char *filename){
-    printf("Statistics\n");
-    //have an access to records.txt and display the overview of removed/submitted tasks
-    //by default, a user is allowed to select a certain task at once and have an option to restore it or to simply return
+char *getStatisticsChoice(char *filename){
+    printf("B = Back\n1. Completed Tasks\n2. Pending Tasks\n3. Overdue Tasks\n");
+    printf("Select a summary of: ");
+    char *option = malloc(16);
+    if(!option){return NULL;}
+    
+    if(scanf("%s", option) != 1){
+        free(option);
+        return NULL;
+    }
+    clearBuffer();
+    if(scanBack(option)){
+        return scanBack(option);
+    }
 
-    //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
+    return option;
 }
 
 
@@ -534,8 +526,6 @@ char *search(){
         return scanBack(option);
     }
 
-
-
     return option;
 }
 
@@ -551,4 +541,21 @@ char *getSearchInput(char *mode){
     }
 
     return strdup(optionBuffer);
+}
+
+
+char *taskCardChoice(){
+    printf("B = Back     1. Mark as complete    2. Delete\n");
+    printf("What would you like to do?: ");
+
+    char buffer[16];
+    if(fgets(buffer, sizeof(buffer), stdin) == NULL){return NULL;}
+    
+    buffer[strcspn(buffer, "\r\n")] = '\0';
+    if(scanBack(buffer)) {
+        return scanBack(buffer);
+    }
+    
+    return strdup(buffer);
+
 }

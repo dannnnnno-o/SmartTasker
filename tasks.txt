@@ -1,14 +1,13 @@
-#|Cook Dinner|Personal|09/17/25|Prepare a meal for the family by 8pm|8
-#|Review for MMW|School|09/19/25|finish worksheet |10
-#|Cook Dinner|Personal|09/17/25|prep meal 2|8
-#|Submit Podcast|School|09/17/25|finish editing and upload podcast to drive|7.5
-#|Review for MMW|School|09/19/25|review for final exam|9
-#|Cook Dinner|Personal|09/17/25|Prepare a meal for the family by 8pm|8
-#|Review for MMW|School|09/19/25|finish worksheet |10
-#|Cook Dinner|Personal|09/17/25|prep meal 2|8
-#|Submit Podcast|School|09/17/25|finish editing and upload podcast to drive|7.5
-#|Review for MMW|School|09/19/25|review for final exam|9
-#|Review for MMW|School|09/19/25|review for final exam|9
-#|Review for MMW|School|09/19/25|review for final exam|9
-#|finish comprog system|school|11/03/25|finish comprog system source code by monday, preferably much earlier to have time preparing the other members for defense|9.5
-#|sleep|personal|11/01/25|have enough sleep|9.5
+1|Review for MMW|School|11/19/25|finish worksheet |10.0
+2|Review for MMW|School|11/19/25|finish worksheet |10.0
+3|finish comprog system|school|11/03/25|finish comprog system source code by monday, preferably much earlier to have time preparing the other members for defense|9.5
+4|sleep|personal|11/01/25|have enough sleep|9.5
+5|Review for MMW|School|11/19/25|review for final exam|9.0
+6|Review for MMW|School|11/19/25|review for final exam|9.0
+7|Review for MMW|School|11/19/25|review for final exam|9.0
+8|Review for MMW|School|11/19/25|review for final exam|9.0
+9|Cook Dinner|Personal|11/17/25|prep meal 2|8.0
+10|Cook Dinner|Personal|11/17/25|Prepare a meal for the family by 8pm|8.0
+11|Cook Dinner|Personal|11/17/25|prep meal 2|8.0
+13|Submit Podcast|School|11/17/25|finish editing and upload podcast to drive|7.5
+14|Submit Podcast|School|11/17/25|finish editing and upload podcast to drive|7.5
