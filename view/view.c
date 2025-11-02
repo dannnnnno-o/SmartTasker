@@ -351,33 +351,25 @@ void viewTasks(struct Task *tasks, int taskCount){
 }
 
 char *viewTaskChoice(int taskCount){
-    if(taskCount == 1)
-    {printf("B = Back, %d = Task Detail\n", taskCount);}
-    else if(taskCount > 1)
-    {printf("B = Back, 1-%d = Task Detail.\n", taskCount);}
+    if(taskCount == 1) {
+        printf("B = Back, %d = Task Detail\n", taskCount);
+    } else if(taskCount > 1) {
+        printf("B = Back, 1-%d = Task Detail.\n", taskCount);
+    }
     
     printf("What do you want to do?: ");
-    char *option = malloc(16);
-    if(!option){return NULL;}
-    if(scanf("%s", option) != 1){
-        free(option);
-
-        return NULL;
+    
+    char buffer[16];
+    if(fgets(buffer, sizeof(buffer), stdin) == NULL){return NULL;}
+    
+    buffer[strcspn(buffer, "\r\n")] = '\0';
+    if(scanBack(buffer)) {
+        return scanBack(buffer);
     }
-    clearBuffer();
-    if(scanBack(option)){
-        return scanBack(option);
-
-    }
-
-    return option;
+    
+    return strdup(buffer);
 }
 
-void displayTask(char *filename){
-    printf("displayTask");
-    //After selecting a specific task, display all it's information
-    //Add a next and previous (if available), return, submit, and remove button.
-}
 
 int addTask(char *filename){
     clearBuffer(); 
@@ -473,8 +465,7 @@ char *search(){
 
     char *option = malloc(16);
     if(!option){return NULL;}
-
-    clearBuffer();
+    
     if(scanf("%s", option) != 1){
         free(option);
         return NULL;
