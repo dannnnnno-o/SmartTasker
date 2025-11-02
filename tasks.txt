@@ -1,22 +1,14 @@
-1|Cook Dinner|Personal|9/17/25|Prepare a meal for the family by 8pm|8
-2|Review for MMW|School|9/19/25|finish worksheet |10
-3|Cook Dinner|Personal|9/17/25|prep meal 2|8
-4|Submit Podcast|School|9/17/25|finish editing and upload podcast to drive|7.5
-5|Review for MMW|School|9/19/25|review for final exam|9
-6|Cook Dinner|Personal|9/17/25|Prepare a meal for the family by 8pm|8
-7|Review for MMW|School|9/19/25|finish worksheet |10
-8|Cook Dinner|Personal|9/17/25|prep meal 2|8
-9|Submit Podcast|School|9/17/25|finish editing and upload podcast to drive|7.5
-10|Review for MMW|School|9/19/25|review for final exam|9
-11|Review for MMW|School|9/19/25|review for final exam|9
-12|Review for MMW|School|9/19/25|review for final exam|9
-13|finish comprog system|school|11/3/25|finish comprog system source code by monday, preferably much earlier to have time preparing the other members for defense|9.5
-14|sleep|personal|11/1/25|have enough sleep|9.5
-15|haahh|jajaj|hjahhaha|hahha|hahaha
-17|sdfasfa|sdfasdf|sdfasfd|dfasda|dsfasf
-18|dfgs|gsdfgsdf|dfgsdfg|dfgsdfg|sdfgsd
-19|sdfds|dsfgsdfg|dsfgsdfg|dsfgsdfg|gsdfg
-20|dsfgds|dfgsd|dfgsdfg|dsfgsdfg|dsgfsdfg
-20|DAN|Classmate|11/3/25|HAHAHAHAHAHA|10
-21|safd|HAHAHAH|AAHAHAHAH|AHHAHAHA|ah
-22|dasf|dsfasf|sdfasdf|dsfasdf|fdsaf
+#|Cook Dinner|Personal|09/17/25|Prepare a meal for the family by 8pm|8
+#|Review for MMW|School|09/19/25|finish worksheet |10
+#|Cook Dinner|Personal|09/17/25|prep meal 2|8
+#|Submit Podcast|School|09/17/25|finish editing and upload podcast to drive|7.5
+#|Review for MMW|School|09/19/25|review for final exam|9
+#|Cook Dinner|Personal|09/17/25|Prepare a meal for the family by 8pm|8
+#|Review for MMW|School|09/19/25|finish worksheet |10
+#|Cook Dinner|Personal|09/17/25|prep meal 2|8
+#|Submit Podcast|School|09/17/25|finish editing and upload podcast to drive|7.5
+#|Review for MMW|School|09/19/25|review for final exam|9
+#|Review for MMW|School|09/19/25|review for final exam|9
+#|Review for MMW|School|09/19/25|review for final exam|9
+#|finish comprog system|school|11/03/25|finish comprog system source code by monday, preferably much earlier to have time preparing the other members for defense|9.5
+#|sleep|personal|11/01/25|have enough sleep|9.5
