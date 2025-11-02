@@ -39,7 +39,7 @@ switch(choice){
         if(taskCount){
             tasks = getTasks("tasks.txt", taskCount);
             viewTasks(tasks, taskCount); // lists task
-            
+            clearBuffer();
             taskChoice = viewTaskChoice(taskCount); //prints out choices and prompts the user, returns the input to char *taskChoice
 
             if(isTaskId(taskChoice, taskCount)){
