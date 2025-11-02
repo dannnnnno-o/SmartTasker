@@ -351,33 +351,25 @@ void viewTasks(struct Task *tasks, int taskCount){
 }
 
 char *viewTaskChoice(int taskCount){
-    if(taskCount == 1)
-    {printf("B = Back, %d = Task Detail\n", taskCount);}
-    else if(taskCount > 1)
-    {printf("B = Back, 1-%d = Task Detail.\n", taskCount);}
+    if(taskCount == 1) {
+        printf("B = Back, %d = Task Detail\n", taskCount);
+    } else if(taskCount > 1) {
+        printf("B = Back, 1-%d = Task Detail.\n", taskCount);
+    }
     
     printf("What do you want to do?: ");
-    char *option = malloc(16);
-    if(!option){return NULL;}
-    if(scanf("%s", option) != 1){
-        free(option);
-
-        return NULL;
+    
+    char buffer[16];
+    if(fgets(buffer, sizeof(buffer), stdin) == NULL){return NULL;}
+    
+    buffer[strcspn(buffer, "\r\n")] = '\0';
+    if(scanBack(buffer)) {
+        return scanBack(buffer);
     }
-    clearBuffer();
-    if(scanBack(option)){
-        return scanBack(option);
-
-    }
-
-    return option;
+    
+    return strdup(buffer);
 }
 
-void displayTask(char *filename){
-    printf("displayTask");
-    //After selecting a specific task, display all it's information
-    //Add a next and previous (if available), return, submit, and remove button.
-}
 
 int addTask(char *filename){
     clearBuffer(); 
@@ -434,11 +426,13 @@ int addTask(char *filename){
     if(confirmBuffer[0] == 'y' || confirmBuffer[0] == 'Y'){
         fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline, task.description, task.difficulty);
         fclose(file);
-        printf("Task was added successfully.\n");
+        clear();
+        printf("Task was added successfully.\n\n");
         break;
     }
     else if(confirmBuffer[0] == 'n' || confirmBuffer[0] == 'N'){
-        printf("Task was not added.\n");
+        clear();
+        printf("Task was not added.\n\n");
         fclose(file);
         break;
     }
@@ -471,8 +465,7 @@ char *search(){
 
     char *option = malloc(16);
     if(!option){return NULL;}
-
-    clearBuffer();
+    
     if(scanf("%s", option) != 1){
         free(option);
         return NULL;

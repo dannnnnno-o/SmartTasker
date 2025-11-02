@@ -69,7 +69,7 @@ switch(choice){
     }
         break;
 
-    case 3: statistics("records.txt");
+    case 3: statistics("statistics.txt");
             break;
 
     case 4: //clear();
