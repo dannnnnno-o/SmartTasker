@@ -1,3 +1,0 @@
-1|Cook Dinner|Personal|11/17/25|Prepare a meal for the family by 8pm|8.0
-2|Review for MMW|School|11/19/25|review for final exam|9.0
-3|Cook Dinner|Personal|09/17/25|Prepare a meal for the family by 8pm|8.0

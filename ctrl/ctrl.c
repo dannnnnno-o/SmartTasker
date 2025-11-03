@@ -174,27 +174,24 @@ struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, cha
     struct Task *tasksBuffer = malloc(taskCount *sizeof(struct Task));
     if(!tasksBuffer){return NULL;}
     int n = 0; // for keeping track of index
-    if(strcmp(mode, "name") == 0){
+    if (strcmp(mode, "name") == 0){
         for(int i = 0; i < taskCount; i++){
-            if(strcmp(tasks[i].name, input) == 0){
+            if(strcasecmp(tasks[i].name, input) == 0){ // <-- changed here
                 tasks[i].id = toStr(n + 1);
                 tasksBuffer[n] = tasks[i];
                 n++; 
             }
-            else{
-                continue;
-            }
         }
     }
-
     else if (strcmp(mode, "tag") == 0) {
         for (int i = 0; i < taskCount; ++i) {
-            if (tasks[i].tag && strcmp(tasks[i].tag, input) == 0) {
+            if (tasks[i].tag && strcasecmp(tasks[i].tag, input) == 0) { // <-- changed here
                 tasks[i].id = toStr(n + 1);
                 tasksBuffer[n++] = tasks[i];
             }
         }
     }
+
     
     else if (strcmp(mode, "deadline") == 0) {
         for (int i = 0; i < taskCount; ++i) {
@@ -310,7 +307,7 @@ struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
 
 /* END OF 1. View Tasks */
 
-/* START OF 4. SEARCH */
+
 
 char *scanBack(char *option){
     if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){

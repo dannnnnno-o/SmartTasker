@@ -13,12 +13,11 @@ void clear(){system("cls");}
 void newLine(){printf("\n");}
 
 void landingPage(){
-    printf("Welcome to Smart Tasker.\n");
+    printf("Welcome to Smart Tasker.\n\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
-    printf("3. Statistics\n");
-    printf("4. Search\n");
-    printf("5. Exit\n");
+    printf("3. Search\n");
+    printf("4. Exit\n");
     
     printf("\nWhat would you like to do?: ");
 }
@@ -403,7 +402,7 @@ int addTask(char *filename){
 
     task.id = "#";
     
-    printf("Input task name: ");
+        printf("Input task name: ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.name = strdup(strBuffer);
@@ -413,13 +412,31 @@ int addTask(char *filename){
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.tag = strdup(strBuffer);  
 
-    fprintf(file, "\n%s|%s|%s|%s|%s|%s", task.id, task.name, task.tag, task.deadline,task.description, task.difficulty);
+    while(1){
+    printf("Input task deadline (MM/DD/YY): ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
 
-    fclose(file);
+    if(!isDate(strBuffer)){
+        clear();
+        printf("Add Task\n");
+        printf("TIP: Input a valid deadline (MM/DD/YY)\n\n");
+        printf("Input task name: %s\n", task.name);
+        printf("Input task tag: %s\n", task.tag);
+    }
 
-    return 0;
-
-
+    else if(isDate(strBuffer)){
+    task.deadline = strdup(strBuffer);
+    break;
+    }
+    else{
+        continue;
+    }
+}
+    printf("Input task description: ");
+    fgets(strBuffer, sizeof(strBuffer), stdin);
+    strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
+    task.description = strdup(strBuffer); 
 
     while(1){
     printf("Input task difficulty (1 - 10): ");
@@ -428,7 +445,7 @@ int addTask(char *filename){
     if(!isValidNumber(strBuffer)){
         clear();
         printf("Add Task\n");
-        printf("HINT: Input a valid difficulty (1 - 10)\n\n");
+        printf("TIP: Input a valid difficulty (1 - 10)\n\n");
         printf("Input task name: %s\n", task.name);
         printf("Input task tag: %s\n", task.tag);
         printf("Input task deadline: %s\n", task.deadline);
@@ -439,7 +456,7 @@ int addTask(char *filename){
         if(x <= 0 || x > 10){ // out of range
         clear();
         printf("Add Task\n");   
-        printf("HINT: Input a valid difficulty (1 - 10)\n\n");
+        printf("TIP: Input a valid difficulty (1 - 10)\n\n");
         printf("Input task name: %s\n", task.name);
         printf("Input task tag: %s\n", task.tag);
         printf("Input task deadline: %s\n", task.deadline);
@@ -490,8 +507,8 @@ int addTask(char *filename){
 return 0;
 }
 char *getStatisticsChoice(char *filename){
-    printf("B = Back\n1. Completed Tasks\n2. Pending Tasks\n3. Overdue Tasks\n");
-    printf("Select a summary of: ");
+    printf("B = Back        1. Completed Tasks        2. Pending Tasks        3. Overdue Tasks\n\n");
+    printf("What would you like to see: ");
     char *option = malloc(16);
     if(!option){return NULL;}
     
