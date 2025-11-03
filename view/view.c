@@ -16,9 +16,8 @@ void landingPage(){
     printf("Welcome to Smart Tasker.\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
-    printf("3. Statistics\n");
-    printf("4. Search\n");
-    printf("5. Exit\n");
+    printf("3. Search\n");
+    printf("4. Exit\n");
     
     printf("\nWhat would you like to do?: ");
 }
