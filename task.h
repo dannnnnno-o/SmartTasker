@@ -8,6 +8,7 @@ struct Task {
     char *deadline;
     char *description;
     char *difficulty;
+    float finalRating;
 };
 
 #endif

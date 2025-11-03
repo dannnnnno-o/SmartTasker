@@ -17,11 +17,18 @@ char *toStr(int x);
 int isTaskId(char *taskId, int taskCount);
 struct Task selectTask(struct Task *taskList, int taskCount, char *taskId);
 char *scanBack(char *option);
-int searchKey(char* option);
+int Key(char* option);
 struct Task *getTasks(char *filename, int taskCount);
 struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, char* mode, int *outMatchCount);
 int isDate(char *input);
 
-/* END OF 1. View Tasks */
+int compareTasks(const void *a, const void *b);
+struct Task *sortTasks(struct Task *taskList, int taskCount);
+
+void updateTaskFiles(struct Task *tasks, int taskCount, struct Task selectedTask, const char *actionFile);
+
+int isOverdue(const char *deadline);
+
+void moveOverdueTasks(struct Task *tasks, int *taskCount);
 
 #endif

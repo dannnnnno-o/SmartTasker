@@ -9,6 +9,21 @@
 #define limit 16
 #define taskAttributes 6
 
+struct tm parseDeadline(const char *dateStr) {
+    struct tm deadline = {0};
+    int month, day, year;
+    sscanf(dateStr, "%2d/%2d/%2d", &month, &day, &year);
+
+    // Handle 2-digit year: assume 2000–2099
+    year += (year < 70) ? 2000 : 1900;
+
+    deadline.tm_year = year - 1900;
+    deadline.tm_mon = month - 1;
+    deadline.tm_mday = day;
+    return deadline;
+}
+
+
 int no_file(char *filename){
     FILE *file = fopen(filename, "r");
 
@@ -128,51 +143,55 @@ struct Task *getTasks(char *filename, int taskCount){
     struct Task task; // changes after each iteration::after reading new line
 
     int n = 0; //for keeping track of index
-    while(fgets(lineBuffer, sizeof(lineBuffer), file)){ // while there is a line
-        char *token = strtok(lineBuffer, "|");
-        for(int i = 0; i < taskAttributes; i++){
-            switch(i){
-                case 0: task.id = toStr(n + 1); break; //assign ID
-                case 1: task.name = strdup(token); break;
-                case 2: task.tag = strdup(token); break;
-                case 3: task.deadline = strdup(token); break;
-                case 4: task.description = strdup(token); break;
-                case 5: task.difficulty = strdup(token); break;
-            }
-            token = strtok(NULL, "|");
-        }
-        tasks[n] = task; // assign task at index n of tasks
-        n++;
+    while (fgets(lineBuffer, sizeof(lineBuffer), file)) {
+    size_t len = strlen(lineBuffer);
+    if (len > 0 && lineBuffer[len - 1] != '\n') { // appends a newline if needed (used at the very last line of the file)
+        lineBuffer[len] = '\n';
+        lineBuffer[len + 1] = '\0';
     }
-    fclose(file);
-    return tasks;
+
+    char *token = strtok(lineBuffer, "|");
+    for (int i = 0; i < taskAttributes; i++) {
+        switch (i) {
+            case 0: task.id = toStr(n + 1); break;
+            case 1: task.name = strdup(token); break;
+            case 2: task.tag = strdup(token); break;
+            case 3: task.deadline = strdup(token); break;
+            case 4: task.description = strdup(token); break;
+            case 5: task.difficulty = strdup(token); break;
+        }
+        token = strtok(NULL, "|");
+    }
+    tasks[n] = task;
+    n++;
+    }
+fclose(file);
+return tasks;
 }
+
 
 struct Task *getSimilarTasks(struct Task *tasks, int taskCount, char *input, char *mode, int *outMatchCount){
     struct Task *tasksBuffer = malloc(taskCount *sizeof(struct Task));
     if(!tasksBuffer){return NULL;}
     int n = 0; // for keeping track of index
-    if(strcmp(mode, "name") == 0){
+    if (strcmp(mode, "name") == 0){
         for(int i = 0; i < taskCount; i++){
-            if(strcmp(tasks[i].name, input) == 0){
+            if(strcasecmp(tasks[i].name, input) == 0){ // <-- changed here
                 tasks[i].id = toStr(n + 1);
                 tasksBuffer[n] = tasks[i];
                 n++; 
             }
-            else{
-                continue;
-            }
         }
     }
-
     else if (strcmp(mode, "tag") == 0) {
         for (int i = 0; i < taskCount; ++i) {
-            if (tasks[i].tag && strcmp(tasks[i].tag, input) == 0) {
+            if (tasks[i].tag && strcasecmp(tasks[i].tag, input) == 0) { // <-- changed here
                 tasks[i].id = toStr(n + 1);
                 tasksBuffer[n++] = tasks[i];
             }
         }
     }
+
     
     else if (strcmp(mode, "deadline") == 0) {
         for (int i = 0; i < taskCount; ++i) {
@@ -252,7 +271,7 @@ void difficultyFormat(char *difficulty){
 int countTasks(char *filename){
     FILE *file = fopen(filename, "r");
 
-    char lineBuffer[255];
+    char lineBuffer[256];
     
     char *line = fgets(lineBuffer, sizeof(lineBuffer), file);
     int taskNumber = 0;
@@ -288,7 +307,7 @@ struct Task selectTask(struct Task *taskList, int taskCount, char *taskId){
 
 /* END OF 1. View Tasks */
 
-/* START OF 4. SEARCH */
+
 
 char *scanBack(char *option){
     if(strcmp(option, "b") == 0 || strcmp(option, "B") == 0){
@@ -297,7 +316,7 @@ char *scanBack(char *option){
     return NULL;
 }
 
-int searchKey(char *option){
+int Key(char *option){
     if(strcmp(option, "1") == 0){
         return 1;
     }
@@ -310,3 +329,153 @@ int searchKey(char *option){
     return 0;
 
 }
+
+/* void completeTask(char *filename, struct Task selectedTask){
+    
+    int max_line_length = 1024;
+    
+    FILE *file = fopen(filename, "r");
+} */
+
+int compareTasks(const void *a, const void *b) {
+    struct Task *taskA = (struct Task *)a;
+    struct Task *taskB = (struct Task *)b;
+    return (taskB->finalRating > taskA->finalRating) - (taskB->finalRating < taskA->finalRating);
+}
+
+
+struct Task *sortTasks(struct Task *taskList, int taskCount) {
+    time_t now = time(NULL);
+
+    for (int i = 0; i < taskCount; i++) {
+        float difficulty = atof(taskList[i].difficulty);
+
+        struct tm deadline_tm = parseDeadline(taskList[i].deadline);
+        time_t deadline_time = mktime(&deadline_tm);
+
+        double seconds_diff = difftime(deadline_time, now);
+        double days_diff = seconds_diff / (60 * 60 * 24);
+        if (days_diff <= 0) days_diff = 1;
+
+        taskList[i].finalRating = difficulty / days_diff;
+    }
+
+    qsort(taskList, taskCount, sizeof(struct Task), compareTasks);
+
+    for (int i = 0; i < taskCount; i++) {
+    char *newId = malloc(12); // enough for 10 digits + newline + null terminator
+    snprintf(newId, 12, "%d", i + 1);
+
+        taskList[i].id = newId;
+    }
+
+    return taskList;
+}
+
+
+
+void updateTaskFiles(struct Task *tasks, int taskCount, struct Task selectedTask, const char *actionFile) {
+    FILE *mainFile = fopen("tasks.txt", "w");
+    FILE *logFile = fopen(actionFile, "r");
+
+    if (!mainFile || !logFile) {
+        printf("Error opening file(s).\n");
+        if (mainFile) fclose(mainFile);
+        if (logFile) fclose(logFile);
+        return;
+    }
+
+    // Rewrite tasks.txt without the selected task
+    for (int i = 0; i < taskCount; i++) {
+        if (strcmp(tasks[i].id, selectedTask.id) != 0) {
+            fprintf(mainFile, "%s|%s|%s|%s|%s|%.1f\n",
+                tasks[i].id,
+                tasks[i].name,
+                tasks[i].tag,
+                tasks[i].deadline,
+                tasks[i].description,
+                atof(tasks[i].difficulty) // convert string to double
+            );
+        }
+    }
+
+    // Count existing lines in the action file to determine next ID
+    int newId = 1;
+    char line[512];
+    while (fgets(line, sizeof(line), logFile)) {
+        newId++;
+    }
+
+    fclose(logFile);
+    logFile = fopen(actionFile, "a"); // reopen in append mode
+
+    // Write selected task with new ID
+    fprintf(logFile, "%d|%s|%s|%s|%s|%.1f\n",
+        newId,
+        selectedTask.name,
+        selectedTask.tag,
+        selectedTask.deadline,
+        selectedTask.description,
+        atof(selectedTask.difficulty) // convert string to double
+    );
+
+    fclose(mainFile);
+    fclose(logFile);
+}
+
+
+int isOverdue(const char *deadline) {
+    // deadline format: mm/dd/yy
+    struct tm deadlineDate = {0};
+    int mm, dd, yy;
+    sscanf(deadline, "%d/%d/%d", &mm, &dd, &yy);
+
+    deadlineDate.tm_year = yy + 100; // years since 1900 (e.g. 25 → 2025)
+    deadlineDate.tm_mon = mm - 1;
+    deadlineDate.tm_mday = dd;
+
+    time_t now = time(NULL);
+    struct tm *today = localtime(&now);
+
+    return mktime(&deadlineDate) < mktime(today);
+}
+
+void moveOverdueTasks(struct Task *tasks, int *taskCount) {
+    FILE *mainFile = fopen("tasks.txt", "w");
+    FILE *overdueFile = fopen("overdue.txt", "a");
+
+    if (!mainFile || !overdueFile) {
+        printf("Error opening file(s).\n");
+        if (mainFile) fclose(mainFile);
+        if (overdueFile) fclose(overdueFile);
+        return;
+    }
+
+    int newId = 1;
+    for (int i = 0; i < *taskCount; i++) {
+        if (isOverdue(tasks[i].deadline)) {
+            fprintf(overdueFile, "%d|%s|%s|%s|%s|%.1f\n",
+                newId++,
+                tasks[i].name,
+                tasks[i].tag,
+                tasks[i].deadline,
+                tasks[i].description,
+                atof(tasks[i].difficulty)
+            );
+        } else {
+            fprintf(mainFile, "%s|%s|%s|%s|%s|%.1f\n",
+                tasks[i].id,
+                tasks[i].name,
+                tasks[i].tag,
+                tasks[i].deadline,
+                tasks[i].description,
+                atof(tasks[i].difficulty)
+            );
+        }
+    }
+
+    fclose(mainFile);
+    fclose(overdueFile);
+}
+
+

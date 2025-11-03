@@ -13,12 +13,11 @@ void clear(){system("cls");}
 void newLine(){printf("\n");}
 
 void landingPage(){
-    printf("Welcome to Smart Tasker.\n");
+    printf("Welcome to Smart Tasker.\n\n");
     printf("1. View Tasks\n");
     printf("2. Add Task\n");
-    printf("3. Statistics\n");
-    printf("4. Search\n");
-    printf("5. Exit\n");
+    printf("3. Search\n");
+    printf("4. Exit\n");
     
     printf("\nWhat would you like to do?: ");
 }
@@ -403,7 +402,7 @@ int addTask(char *filename){
 
     task.id = "#";
     
-    printf("Input task name: ");
+        printf("Input task name: ");
     fgets(strBuffer, sizeof(strBuffer), stdin);
     strBuffer[strcspn(strBuffer, "\r\n")] = '\0';
     task.name = strdup(strBuffer);
@@ -421,7 +420,7 @@ int addTask(char *filename){
     if(!isDate(strBuffer)){
         clear();
         printf("Add Task\n");
-        printf("HINT: Input a valid deadline (MM/DD/YY)\n\n");
+        printf("TIP: Input a valid deadline (MM/DD/YY)\n\n");
         printf("Input task name: %s\n", task.name);
         printf("Input task tag: %s\n", task.tag);
     }
@@ -446,7 +445,7 @@ int addTask(char *filename){
     if(!isValidNumber(strBuffer)){
         clear();
         printf("Add Task\n");
-        printf("HINT: Input a valid difficulty (1 - 10)\n\n");
+        printf("TIP: Input a valid difficulty (1 - 10)\n\n");
         printf("Input task name: %s\n", task.name);
         printf("Input task tag: %s\n", task.tag);
         printf("Input task deadline: %s\n", task.deadline);
@@ -457,7 +456,7 @@ int addTask(char *filename){
         if(x <= 0 || x > 10){ // out of range
         clear();
         printf("Add Task\n");   
-        printf("HINT: Input a valid difficulty (1 - 10)\n\n");
+        printf("TIP: Input a valid difficulty (1 - 10)\n\n");
         printf("Input task name: %s\n", task.name);
         printf("Input task tag: %s\n", task.tag);
         printf("Input task deadline: %s\n", task.deadline);
@@ -507,12 +506,22 @@ int addTask(char *filename){
     }
 return 0;
 }
-void statistics(char *filename){
-    printf("Statistics\n");
-    //have an access to records.txt and display the overview of removed/submitted tasks
-    //by default, a user is allowed to select a certain task at once and have an option to restore it or to simply return
+char *getStatisticsChoice(char *filename){
+    printf("B = Back        1. Completed Tasks        2. Pending Tasks        3. Overdue Tasks\n\n");
+    printf("What would you like to see: ");
+    char *option = malloc(16);
+    if(!option){return NULL;}
+    
+    if(scanf("%s", option) != 1){
+        free(option);
+        return NULL;
+    }
+    clearBuffer();
+    if(scanBack(option)){
+        return scanBack(option);
+    }
 
-    //have the option to manage -- to select many tasks at once and also have an option to restore or abort the operation
+    return option;
 }
 
 
@@ -534,8 +543,6 @@ char *search(){
         return scanBack(option);
     }
 
-
-
     return option;
 }
 
@@ -551,4 +558,21 @@ char *getSearchInput(char *mode){
     }
 
     return strdup(optionBuffer);
+}
+
+
+char *taskCardChoice(){
+    printf("B = Back     1. Mark as complete    2. Delete\n");
+    printf("What would you like to do?: ");
+
+    char buffer[16];
+    if(fgets(buffer, sizeof(buffer), stdin) == NULL){return NULL;}
+    
+    buffer[strcspn(buffer, "\r\n")] = '\0';
+    if(scanBack(buffer)) {
+        return scanBack(buffer);
+    }
+    
+    return strdup(buffer);
+
 }

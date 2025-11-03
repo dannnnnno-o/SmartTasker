@@ -14,12 +14,15 @@ void displayTask(char *filename);
 
 int addTask(char *filename); // returns 0 if no probs
 
-void statistics(char *filename);
+char *getStatisticsChoice(char *filename);
 
 char *search(/* name, tag, or date */);
 char *getSearchInput(char *mode);
 
 void printTask(struct Task task);
+
+char *taskCardChoice();
+
 
 
 #endif
