@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 1|Cook Dinner|Personal|11/17/25|Prepare a meal for the family by 8pm|8.0
 2|Review for MMW|School|11/19/25|review for final exam|9.0
 3|Cook Dinner|Personal|09/17/25|Prepare a meal for the family by 8pm|8.0
-4|Submit Podcast|School|11/17/25|finish editing and upload podcast to drive|7.5
-=======
->>>>>>> 80036e61b2c39e8e1c852f578595654b89333699
+4|sleep|personal|11/01/25|have enough sleep|9.5
